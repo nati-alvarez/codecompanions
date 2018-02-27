@@ -1,0 +1,59 @@
+{
+  "name": "code-companions",
+  "version": "1.0.0",
+  "description": "A platform for developers to collaborate on awesome projects.",
+  "main": "server/app.js",
+  "scripts": {
+    "build:prod": "webpack -p",
+    "start:client": "webpack-dev-server",
+    "start": "node server/app.js",
+    "test": "nodemon server/app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nati-alvarez/codecompanions.git"
+  },
+  "author": "Natividad Alvarez",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nati-alvarez/codecompanions/issues"
+  },
+  "homepage": "https://github.com/nati-alvarez/codecompanions#readme",
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-stage-0": "^6.24.1",
+    "css-loader": "^0.28.9",
+    "file-loader": "^1.1.6",
+    "html-webpack-plugin": "^2.30.1",
+    "node-sass": "^4.7.2",
+    "path": "^0.12.7",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "react-redux": "^5.0.6",
+    "react-router-dom": "^4.2.2",
+    "react-router-redux": "^4.0.8",
+    "redux": "^3.7.2",
+    "redux-logger": "^3.0.6",
+    "redux-thunk": "^2.2.0",
+    "sass-loader": "^6.0.6",
+    "style-loader": "^0.19.1",
+    "url-loader": "^0.6.2",
+    "webpack": "^3.10.0",
+    "webpack-dev-server": "^2.11.1"
+  },
+  "dependencies": {
+    "axios": "^0.17.1",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.18.2",
+    "cors": "^2.8.4",
+    "dotenv": "^5.0.1",
+    "express": "^4.16.2",
+    "jsonwebtoken": "^8.1.1",
+    "mongoose": "^5.0.7",
+    "passport": "^0.4.0",
+    "passport-jwt": "^3.0.1"
+  }
+}
