@@ -51,6 +51,7 @@
     "cors": "^2.8.4",
     "dotenv": "^5.0.1",
     "express": "^4.16.2",
+    "foundation-sites": "^6.4.4-rc1",
     "jsonwebtoken": "^8.1.1",
     "mongoose": "^5.0.7",
     "passport": "^0.4.0",

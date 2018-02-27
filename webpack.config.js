@@ -29,7 +29,7 @@ module.exports = {
             } 
     },
     {
-        test: /\.sass$/, 
+        test: /\.(sass|css)$/, 
         use: [{
             loader: "style-loader" // creates style nodes from JS strings
         }, {
