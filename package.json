@@ -55,6 +55,7 @@
     "jsonwebtoken": "^8.1.1",
     "mongoose": "^5.0.7",
     "passport": "^0.4.0",
-    "passport-jwt": "^3.0.1"
+    "passport-jwt": "^3.0.1",
+    "uuid": "^3.2.1"
   }
 }
