@@ -1,7 +1,8 @@
 const router = require("express").Router();
 
-router.get("/", (req, res)=>{
-    res.send("this is the api home route")
-});
+//routes
+const authRoutes = require("./auth");
+
+router.use('/auth', authRoutes);
 
 module.exports = router;
