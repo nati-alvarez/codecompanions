@@ -9,7 +9,7 @@ const Email = require('email-templates');
 
 const email = new Email({
     message: {
-      from: 'codecompanions@zoho.com'
+      from: process.env.EMAIL_USER
     },
     transport: {
       jsonTransport: true
