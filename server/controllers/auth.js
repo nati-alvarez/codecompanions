@@ -66,4 +66,57 @@ exports.verify = (req, res) => {
     });
 }
 
+exports.resendConfirmationEmail = (req, res) => {
+    User.findOne({email: req.body.email}).then(user => {
+        if(!user) return res.status(404).json({success: false, message: "User not found."});
+        email.send({
+            template: "verify",
+            message: {
+                to: user.email
+            },
+            locals: {
+                name: user.name.split(" ")[0],
+                verificationCode: user.verificationCode
+            }
+        }).then(data => {
+            console.log(data);
+            res.status(200).json({success: true, message: "Verification email sent."});
+        }).catch(console.error);
+    }).catch(err => {
+        res.status(500).json({success: false, err, message: "Error sending verification email."});
+    });
+}
+
+exports.sendPasswordRecoveryEmail = (req, res) => {
+    User.findOne({email: req.body.email}).then(user => {
+        if(!user) res.status(404).json({success: false, message: "User not found."});
+        email.send({
+            template: "passwordRecovery",
+            message: {
+                to: user.email
+            },
+            locals: {
+                id: user._id,
+                name: user.name.split(" ")[0]
+            }
+        }).then(data => {
+            res.status(200).json({success: true, message: "Password recovery email sent."});
+        }).catch(err => {
+            res.status(500).json({success: false, message: "Error sending password recovery email."});
+        })
+    });
+}
+
+exports.resetPassword = (req, res) => {
+    User.findById(req.body.id).then(user => {
+        if(!user) return res.status(404).json({success: false, message: "User not found."});
+        user.password = bcrypt.hashSync(req.body.password, 10);
+        user.save().then(user => {
+            res.status(201).json({success: true, message: "Your password has been reset."});
+        });
+    }).catch(err => {
+        res.status(500).json({success: false, err, message: "Error resetting password."});
+    })
+}
+
 module.exports = exports;
