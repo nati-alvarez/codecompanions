@@ -10,6 +10,7 @@ exports.getUser = (req, res) => {
 }
 
 exports.updateUser = (req, res) => {
+    if(req.user.username !== req.params.username) return res.status(401).json({success: false, message: "You are not allowed to perform this action."});
     User.findOne({username: req.params.username}).then(user => {
         if(!user) return res.status(404).json({success: false, message: "User not found."});
         //update user info if new values are provided
