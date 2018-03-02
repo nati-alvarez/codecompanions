@@ -66,7 +66,7 @@ exports.verify = (req, res) => {
     });
 }
 
-exports.resendConfirmationEmail = (req, res) => {
+exports.resendVerificationEmail = (req, res) => {
     User.findOne({email: req.body.email}).then(user => {
         if(!user) return res.status(404).json({success: false, message: "User not found."});
         email.send({
