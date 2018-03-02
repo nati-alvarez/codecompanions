@@ -1,0 +1,33 @@
+/*************************
+    FILE STRUCTURE AND WORKFLOW FOR STYLESHEETS:
+    
+    index.sass - base styles
+    _vars.sass - sass variables
+    components - styles for any components that may be used many times throughout the app (e.g. buttons, comment, post)
+    pages - styles for the layout of the apps pages and page specific styles not used elsewhere
+
+    
+//FONTS
+@import url('https://fonts.googleapis.com/css?family=Quicksand|Pathway+Gothic+One');
+
+//VARS
+@import 'vars';
+
+//BASE STYLES
+body
+    font-family: Quicksand
+
+h1, h2, h3, h4, h5, h6
+    font-family: Pathway Gothic One
+
+input 
+    font-family: Quicksand
+
+a
+    color: inherit
+
+
+//IMPORTS
+@import './components/nav'
+@import './components/buttons'
+@import './components/misc'
