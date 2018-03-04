@@ -1,0 +1,30 @@
+.loader
+    width: 30px
+    height: 30px
+    background: transparent
+    position: relative
+    display: flex
+    justify-content: center
+    align-items: center
+
+    &::after
+        display: inline-block
+        border-radius: 50%
+        transform-origin: 50% 50%
+        transform: scale(2, 2)
+        position: absolute
+        content: " "
+        animation: load 850ms ease infinite
+        margin: 0 auto
+
+@keyframes load 
+    0%
+        background: transparentize($primaryRed, .2)
+        width: 2px
+        height: 2px
+    75%
+        background: transparent
+    100%
+        background: transparent
+        width: 15px
+        height: 15px
