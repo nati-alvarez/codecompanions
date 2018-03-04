@@ -1,26 +1,21 @@
 import React, {Component} from 'react';
+import {connect} from 'react-redux';
 
 //COMPONENTS
 import Nav from '../Nav';
-import LoginForm from './LoginForm';
-import SignupForm from './SignupForm';
+import FormContainer from './FormContainer';
 
 //STYLES
 import '../../styles/pages/homepage.sass'
 
 class HomePage extends Component {
-    constructor(props){
-        super(props);
-        this.state = {
-            form: "login"
-        }
-        this.swapForm = this.swapForm.bind(this);
+    componentDidMount(){
+        if(this.props.user) this.props.history.push("/dash")
     }
-    swapForm(form){
-        this.setState({form});
+    componentDidUpdate(){
+        if(this.props.user) this.props.history.push("/dash");
     }
     render(){
-        var Form = (this.state.form === "login")? LoginForm: SignupForm;
         return (
             <div className="homepage">
                 <Nav/>
@@ -31,13 +26,17 @@ class HomePage extends Component {
                         A platform for developers to find other devs to collaborate with on awesome projects!
                         <span className="htmltag">&nbsp;&lt;/info&gt;</span>
                     </p>
-                    <form onSubmit={(e) => e.preventDefault()}>
-                        {<Form swapForm={this.swapForm}/>}
-                    </form>
+                    <FormContainer/> {/*this will contain render either login or signup form depending on state */}
                 </header>
             </div>
         );
     }
 }
 
-export default HomePage;
+const mapStateToProps = (state) => {
+    return {
+        user: state.auth.user
+    }
+}
+
+export default connect(mapStateToProps)(HomePage);
