@@ -4,6 +4,7 @@
   "description": "A platform for developers to collaborate on awesome projects.",
   "main": "server/app.js",
   "scripts": {
+    "build": "webpack",
     "build:prod": "webpack -p",
     "start:client": "webpack-dev-server",
     "start": "node server/app.js",
