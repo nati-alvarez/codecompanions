@@ -16,6 +16,9 @@ class FormContainer extends Component {
         }
         this.swapForm = this.swapForm.bind(this);
     }
+    componentWillUnmount(){
+        this.props.swapForm();
+    }
     swapForm(form){
         this.setState({form});
         this.props.swapForm();
