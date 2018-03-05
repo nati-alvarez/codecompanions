@@ -42,6 +42,19 @@ exports.signup = (body) => {
     }
 }
 
+exports.verifyAccount = (body) => {
+    return (dispatch) => {
+        dispatch({type: "VERIFY_ACCOUNT_START"});
+        axios.post(`${API_URL}/auth/verify`, body).then(res => {
+            dispatch({type: "VERIFY_ACCOUNT_SUCCESS", payload: res.data.message});
+        }).catch(err => {
+            if(err.response){
+                dispatch({type: "VERIFY_ACCOUNT_ERR", payload: res.data.message});
+            }
+        });
+    }
+}
+
 exports.sendRecoverPasswordEmail = (body) => {
     return (dispatch) => {
         dispatch({type: "RECOVER_EMAIL_START"});
@@ -50,6 +63,19 @@ exports.sendRecoverPasswordEmail = (body) => {
         }).catch(err => {
             if(err.response){
                 dispatch({type: "RECOVER_EMAIL_ERR", payload: err.response.data.message});
+            }
+        });
+    }
+}
+
+exports.resetPassword = (body) => {
+    return (dispatch) => {
+        dispatch({type: "RESET_PASSWORD_START"});
+        axios.post(`${API_URL}/auth/reset-password`, body).then(res => {
+            dispatch({type: "RESET_PASSWORD_SUCCESS", payload: res.data.message});
+        }).catch(err => {
+            if(err.response){
+                dispatch({type: "RESET_PASSWORD_ERR", payload: err.response.data.message});
             }
         });
     }
