@@ -89,7 +89,7 @@ exports.resendVerificationEmail = (req, res) => {
 
 exports.sendPasswordRecoveryEmail = (req, res) => {
     User.findOne({email: req.body.email}).then(user => {
-        if(!user) res.status(404).json({success: false, message: "User not found."});
+        if(!user) return res.status(404).json({success: false, message: "User not found."});
         email.send({
             template: "passwordRecovery",
             message: {
