@@ -42,6 +42,19 @@ exports.signup = (body) => {
     }
 }
 
+exports.sendRecoverPasswordEmail = (body) => {
+    return (dispatch) => {
+        dispatch({type: "RECOVER_EMAIL_START"});
+        axios.post(`${API_URL}/auth/send-recover-email`, body).then(res => {
+            dispatch({type:"RECOVER_EMAIL_SUCCESS", payload: res.data.message})
+        }).catch(err => {
+            if(err.response){
+                dispatch({type: "RECOVER_EMAIL_ERR", payload: err.response.data.message});
+            }
+        });
+    }
+}
+
 //form validation error
 exports.formError = (message) => {
     return (dispatch) => {
