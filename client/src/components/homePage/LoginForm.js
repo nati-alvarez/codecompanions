@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {Link} from 'react-router-dom';
 
 //COMPONENTS
 import Loader from '../animations/Loader'
@@ -65,7 +66,9 @@ class LoginForm extends Component {
                     </button>
                     
                     <small className="form-switch" onClick={() => this.props.swapForm("signup")}>Don't have an account? Sign Up!</small>
-                    <small className="forgot-password subheader">I forgot my password</small>
+                    <Link to="/account/forgot">
+                        <small className="forgot-password subheader">I forgot my password</small>
+                    </Link>
                 </div>
             </div>
         );
