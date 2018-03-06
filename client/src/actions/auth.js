@@ -94,3 +94,12 @@ exports.swapForm = () => {
         dispatch({type: "SWAP_FORM"});
     }
 }
+
+exports.logout = () => {
+    return (dispatch) => {
+        //remove user object and jwt token from localStorage
+        localStorage.removeItem("user");
+        localStorage.removeItem("token");
+        dispatch({type: "LOGOUT"});
+    }
+}
