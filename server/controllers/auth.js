@@ -58,9 +58,12 @@ exports.signup = (req, res) => {
 }
 
 exports.verify = (req, res) => {
-    User.findOneAndUpdate({verificationCode: req.body.verificationCode}, {set: {verified: 1}}, {new: true}).then(user => {
+    User.findOne({verificationCode: req.body.verificationCode}).then(user => {
         if(!user) return res.status(401).json({success: false, message: "Invalid token."});
-        res.status(201).json({success: true, message: "Your account was verified. You may now log in."});
+        user.verified = 1;
+        user.save().then(data => {
+            res.status(201).json({success: true, message: "Your account was verified. You may now log in."});
+        });
     }).catch(err => {
         res.status(500).json({success: false, err, message: "An error occurred. Please try again."});
     });
