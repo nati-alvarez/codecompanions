@@ -10,10 +10,10 @@ import '../../styles/pages/homepage.sass'
 
 class HomePage extends Component {
     componentDidMount(){
-        if(this.props.user) this.props.history.push("/dash")
+        if(localStorage.getItem("isLoggedIn")) this.props.history.push("/dash")
     }
     componentDidUpdate(){
-        if(this.props.user) this.props.history.push("/dash");
+        if(localStorage.getItem("isLoggedIn")) this.props.history.push("/dash");
     }
     render(){
         return (

@@ -1,0 +1,57 @@
+.account-page
+
+    .cell
+
+        p
+            max-width: 500px
+            margin-bottom: 2rem
+
+        .help-text
+            margin-top: 1rem
+
+    .user-object
+
+        & > *
+            width: 75%
+            min-width: 250px 
+
+    .image-container
+        width: 250px
+        height: 250px
+        border: 1px solid lightgray
+        padding: 5px
+        border-radius: 2px
+        position: relative
+
+        &:hover
+
+            .edit-btn
+                opacity: 1
+                transform: rotate(0deg)
+        
+        img
+            border: 1px solid lightgray
+            object-fit: fill
+
+    h4, p
+        position: relative
+        
+    h4:hover, p:hover
+
+        .edit-btn
+            opacity: 1
+            transform: rotate(0deg)
+        
+    .email
+        margin-top: -1%
+        font-size: 14px
+        padding-bottom: 2%
+
+    .skill-tag
+        display: inline-block
+        background: #efefef
+        font-size: 12px
+        padding: .2rem 1rem
+        margin: .2rem
+        border: 1px solid lightgray
+        border-radius: 2px

@@ -6,6 +6,7 @@ exports.login = (body) => {
         dispatch({type: "LOGIN_START"})
         axios.post(`${API_URL}/auth/login`, body).then(res => {
             localStorage.setItem('token', res.data.token);
+            localStorage.setItem('isLoggedIn', true);
 
             //delete sensitive info from user object
             delete res.data.user.password;
@@ -100,6 +101,7 @@ exports.logout = () => {
         //remove user object and jwt token from localStorage
         localStorage.removeItem("user");
         localStorage.removeItem("token");
+        localStorage.removeItem("isLoggedIn");
         dispatch({type: "LOGOUT"});
     }
 }

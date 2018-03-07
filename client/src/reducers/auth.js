@@ -2,7 +2,7 @@
 //// or put processStatus into it's own reducer
 
 export default function reducer(state={
-    user: JSON.parse(localStorage.getItem("user")) || null,
+    user: JSON.parse(localStorage.getItem("user")) || {},
     form: {
         loading: false,
         errorMessage: null,
@@ -35,6 +35,10 @@ export default function reducer(state={
             return {...state, form: {...state.form, loading: false, successMessage: null, errorMessage: action.payload}}
         case "SWAP_FORM":
             return {...state, form: {...state.form, loading: false, errorMessage: null, successMessage: null}}
+        case "UPDATE_USER_SUCCESS":
+            return {...state, user: action.payload}
+        case "LOGOUT":
+            return {...state, user: {}}
         default:
             return state;
     }

@@ -3,13 +3,51 @@ nav.top-bar
     color: whitesmoke
     position: fixed
     width: 100%
+    font-family: Pathway Gothic One
+    font-size: 18px
+    padding: 0px
+    z-index: 10
+
+    a:hover
+        color: $primaryRed
 
     ul
         background: inherit
+        position: relative
+
+        .dropdown-parent
+            padding: 10px 20px
+
+        .dropdown-parent:hover .dropdown
+            display: block
+
+            a
+                margin: 0 auto
+                padding: .8rem
+
+            a:last-of-type
+                border-bottom: none
+
+            a:hover
+                background: darken(#efefef, 5%)
+
+        .dropdown
+            display: none
+            position: absolute
+            background: #efefef
+            border: 1px solid #0a0a0a
+            color: #0a0a0a
+            border-top: none
+            text-align: left
+            width: 150%
+            font-size: 18px
+            top: 100%
+            right: -10%
         
     .logo
         font-family: Pathway Gothic One
         font-size: 22px
+        text-transform: uppercase
 
         &:hover, &:focus
             color: inherit
@@ -17,3 +55,9 @@ nav.top-bar
     .top-bar-right
         font-family: Pathway Gothic One
         font-size: 22px
+
+        .profile-pic
+            margin: 0px 10px
+            border-radius: 50%
+
+    
