@@ -1,4 +1,4 @@
-//////////// TODO: Make this work in a less retarded way
+// TODO: Make this work in a less retarded way
 
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
@@ -12,6 +12,7 @@ import EditModal from './EditModal';
 
 //ACTIONS
 import {updateUser} from '../../actions/user';
+import {getSkillsList} from '../../actions/keywords';
 
 class AccountInfo extends Component {
     constructor(){
@@ -30,7 +31,6 @@ class AccountInfo extends Component {
         this.setState({showEditModal: false, propToEdit: null});
     }
     render(){
-        console.log(this.state)
         return (
             <section className="account-page">
                 <h2 className="">Account Details</h2>
@@ -63,7 +63,6 @@ class AccountInfo extends Component {
                                 }
                                 <EditBtn showEditModal={this.showEditModal} propToEdit="skills"/>
                             </div>
-                            <small className="help text">Seperate skills by the " | " character</small>
                         </p>
                         <p className="grid-x">
                             <div className="cell medium-6">
@@ -122,7 +121,14 @@ class AccountInfo extends Component {
 
                 {/* modal that will appear when editing account details */}
                 {this.state.showEditModal &&
-                    <EditModal updateUser={this.props.updateUser} closeEditModal={this.closeEditModal} propToEdit={this.state.propToEdit} user={this.props.user}/>
+                    <EditModal 
+                    getSkillsList={this.props.getSkillsList}
+                    skills={this.props.skills}
+                    updateUser={this.props.updateUser}
+                    closeEditModal={this.closeEditModal} 
+                    propToEdit={this.state.propToEdit} 
+                    user={this.props.user}
+                    />
                 }
             </section>
         );
@@ -131,8 +137,15 @@ class AccountInfo extends Component {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        updateUser: (user, body) => dispatch(updateUser(user, body))
+        updateUser: (user, body) => dispatch(updateUser(user, body)),
+        getSkillsList: (keyword) => dispatch(getSkillsList(keyword))
     }
 }
 
-export default connect(null, mapDispatchToProps)(AccountInfo);
+const mapStateToProps = (state) => {
+    return {
+        skills: state.keywords.skills
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(AccountInfo);

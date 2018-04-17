@@ -1,0 +1,52 @@
+@import '../vars'
+    
+.project-listing-page  
+
+    .loader
+        margin: 0 auto
+        margin-bottom: .2rem
+
+    .project-listing 
+
+        .project-description
+            font-size: 18px
+            margin-bottom: 2rem
+        
+        .skills, .owner
+            font-size: 14px
+
+        .owner
+            color: dimgray
+            margin-top: 1rem
+
+            img
+                border-radius: 50%
+
+    .application-form
+        position: fixed
+        top: 0
+        left: 0
+        width: 100%
+        height: 100vh   
+        background: transparentize(black, .2)
+
+        .close
+            cursor: pointer
+            margin-bottom: 1rem
+            color: $primaryRed
+            font-size: 22px
+            font-weight: bold
+
+        form
+            background: whitesmoke
+            padding: 1rem
+
+    .success-message
+        display: inline-block
+    
+    .error-message
+        display: inline-block
+
+    .application-count
+        font-size: 16px
+        margin-top: 1.5rem

@@ -12,8 +12,8 @@ class Nav extends Component {
                 {localStorage.getItem("isLoggedIn") &&
                     <ul className="top-bar-left menu">
                         <Link to="/" className="logo">_Code Companions</Link>
-                        <a>My Projects</a>
-                        <a>Find Projects</a>
+                        <Link to="/dash/my-projects">My Projects</Link>
+                        <Link to="/dash/projects">Find Projects</Link>
                     </ul>
                 }
                 {!localStorage.getItem("isLoggedIn") &&

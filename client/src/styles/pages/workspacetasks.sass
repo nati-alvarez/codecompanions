@@ -1,0 +1,77 @@
+@import '../vars'
+    
+.workspace-tasks
+    overflow-y: scroll
+
+    .tasks
+
+        .task
+            margin-top: 2rem
+            border: 1px solid lightgray
+            padding: 1rem
+
+            .assigned-to
+                margin-top: 1rem
+                
+                img
+                    border-radius: 50%
+                    margin: .2rem
+                    border: 4px double #1d1d1d
+        
+            small
+                font-weight: bold
+                padding: .2rem
+                border-radius: 3px
+
+                &.not-completed
+                    background: mistyrose
+                    color: $primaryRed
+
+                &.pending
+                    background: lightyellow
+                    color: darken(lightyellow, 70%)
+
+                &.completed
+                    background: honeydew
+                    color: $primaryGreen
+
+
+    .user-select
+        max-height: 150px
+        overflow-y: scroll
+        
+        .user-option
+            margin-bottom: 1rem
+            border: 1px solid lightgray
+            padding: .4rem
+            border-radius: 3px
+            cursor: pointer
+
+            &:first-of-type
+                margin-top: .6rem
+
+            &:hover
+                background: darken(whitesmoke, 10%)
+
+            &.active
+                background: darken(whitesmoke, 15%)
+
+        input
+            display: inline-block
+            margin: 0
+
+        .username
+            display: inline-block
+            margin: 0
+            font-size: 16px
+            margin-right: .5rem
+
+        img
+            margin-right: .5rem
+            border-radius: 50%
+            vertical-align: middle
+
+    .new-task-modal
+        
+        button
+            margin-top: 1rem

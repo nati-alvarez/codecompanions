@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {API_URL} from '../env';
+import {API_URL, AUTH_HEADERS} from '../env';
 
 exports.login = (body) => {
     return (dispatch) => {
@@ -13,6 +13,7 @@ exports.login = (body) => {
             delete res.data.user.verificationCode;
 
             localStorage.setItem('user', JSON.stringify(res.data.user));
+            console.log(res.data.user)
             dispatch({type: "LOGIN_SUCCESS", payload: {user: res.data.user}});
         }).catch(err => {
             if(err.response){
@@ -102,6 +103,7 @@ exports.logout = () => {
         localStorage.removeItem("user");
         localStorage.removeItem("token");
         localStorage.removeItem("isLoggedIn");
+        localStorage.clear();
         dispatch({type: "LOGOUT"});
     }
 }

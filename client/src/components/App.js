@@ -10,6 +10,7 @@ import '../styles/index.sass'
 //COMPNENTS
 import HomePage from './homePage';
 import Dash from './dashboard';
+import Workspace from './workspace';
 import RecoverPassword from './recoverPassword';
 import ResetPassword from './recoverPassword/resetForm';
 import VerifyAccount from './account/Verify';
@@ -21,6 +22,7 @@ class App extends Component {
                 <Switch>
                     <Route exact path="/" component={HomePage}/> 
                     <Route path="/dash" component={Dash}/>
+                    <Route path="/workspace/:id" component={Workspace}/>
                     <Route path="/account/forgot" component={RecoverPassword}/>
                     <Route path="/account/reset" component={ResetPassword}/>
                     <Route path="/account/verify/:verificationCode" component={VerifyAccount}/>

@@ -9,6 +9,8 @@ exports.getUser = (req, res) => {
     });
 }
 
+module.exports = exports;
+
 exports.updateUser = (req, res) => {
     if(req.user.username !== req.params.username) return res.status(401).json({success: false, message: "You are not allowed to perform this action."});
     User.findOne({username: req.params.username}).then(user => {

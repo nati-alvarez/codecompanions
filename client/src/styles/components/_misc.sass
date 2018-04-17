@@ -2,6 +2,17 @@
     color: $primaryGreen
     font-weight: bold
 
+.skill-tag
+    display: inline-block
+    background: #efefef
+    font-size: 12px
+    padding: .2rem 1rem
+    margin: .2rem
+    border: 1px solid lightgray
+    border-radius: 2px
+    user-select: none
+
+
 .error-message
     font-size: 16px 
     background: lighten($primaryRed, 55%)
@@ -9,10 +20,33 @@
 
 .success-message
     padding: 1% 2%
-    fotn-weight: bold
+    font-weight: bold
     color: $primaryGreen
     background: lighten($primaryGreen, 55%)
 
 .exception
     color: darken($primaryRed, 10%)
     font-weight: bold
+
+.profile-picture
+    border-radius: 50%
+    margin: 0px .2rem
+    border: double 4px black
+
+.profile-link 
+    
+    &:hover
+        text-decoration: underline
+
+.scrollbar
+
+    &::-webkit-scrollbar 
+        width: 8px; 
+        height: 8px;
+
+    &::-webkit-scrollbar-track
+        background: transparent
+
+    &::-webkit-scrollbar-thumb
+        border-radius: 10px
+        background: lightgray

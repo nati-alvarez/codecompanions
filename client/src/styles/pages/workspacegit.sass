@@ -1,0 +1,49 @@
+@import '../vars'
+    
+.workspace-git
+    overflow-y: scroll
+
+    a
+        color: $primaryRed
+
+    .link
+        margin-bottom: .6rem
+
+.repo-commits //conatiner for repo info (such as links) and commit history
+    height: 70vh
+    max-height: 100vh
+
+.commit-history
+    overflow-y: scroll
+    height: 100%
+
+    h3
+        position: sticky
+        top: 0px
+        background: white
+
+    .commit
+        background: whitesmoke
+        border: 1px solid lightgray
+        margin: 1rem 0px
+        padding: .2rem .4rem
+        cursor: pointer
+
+        small
+            color: dimgray
+
+.code-explorer
+    border: 1px solid dimgrey
+    max-width: 800px
+
+    .path
+        background: gainsboro
+        border-bottom: 1px solid dimgrey
+        padding: .2rem 1rem
+
+        .path-name
+            display: inline-block
+            width: 95%
+
+        svg
+            width: 5%

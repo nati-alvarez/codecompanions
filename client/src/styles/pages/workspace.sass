@@ -1,0 +1,53 @@
+@import '../vars'
+
+.workspace-page
+
+    .workspace-container
+        height: 100vh
+        overflow: hidden
+
+        aside
+            background: #1d1d1d
+            color: whitesmoke
+            padding: 1rem .5rem
+            position: relative
+            z-index: 3
+
+            nav
+                margin-top: -40%
+                height: 100%
+                flex-direction: column
+                justify-content: center
+
+                li
+                    cursor: pointer
+                    border-radius: 3px
+                    margin: 1rem 0px
+                    padding: .5rem
+                    background: lighten(#1d1d1d, 10%)
+
+                    &:hover
+                        background: lighten(#1d1d1d , 20%)
+
+
+        main
+            padding: 0px
+            height: 100%
+            
+            .workspace-header
+                border-bottom: 1px solid lightgray
+                box-shadow: 0px 2px 2px #efefef 
+                align-items: center
+                justify-content: space-between
+                padding: 0px 1rem
+
+                .settings
+                    cursor: pointer
+                    font-size: 22px
+
+                    &:hover
+                        color: $primaryRed
+
+            .content
+                padding: 1rem 2rem
+                height: 89vh

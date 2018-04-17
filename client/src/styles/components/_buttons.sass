@@ -21,6 +21,48 @@
             color: black
             border: 1px solid lightgray
 
+.btn-secondary-bold
+    background: $primaryGreen
+    color: whitesmoke
+
+    &:hover, &:focus
+        background: $primaryGreen 
+
+    &:hover
+        background: lighten($primaryGreen, 10%)
+
+    &:disabled
+        padding-top: 0px
+        padding-bottom: 0px
+        opacity: 1
+        background: white
+        color: black
+        border: 1px solid lightgray
+
+        &:hover
+            background: white
+            color: black
+            border: 1px solid lightgray
+
+.btn-transparent
+    background: transparent
+    color: $primaryBlack
+    border: 1px solid darkgray
+
+    &:hover
+        background: transparent
+        color: $primaryBlack
+        border: 1px solid darkgrey
+
+    &:focus
+        background: transparent
+        color: $primaryBlack
+        border: 1px solid darkgrey
+
+.circle-btn
+    border-radius: 50%
+    padding: .5rem
+
 .edit-btn
     vertical-align: middle
     opacity: 0

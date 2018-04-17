@@ -6,12 +6,12 @@
     components - styles for any components that may be used many times throughout the app (e.g. buttons, comment, post)
     pages - styles for the layout of the apps pages and page specific styles not used elsewhere
 
-    
+
 //FONTS
 @import url('https://fonts.googleapis.com/css?family=Quicksand|Pathway+Gothic+One');
 
 //VARS
-@import 'vars';
+@import 'vars'
 
 //BASE STYLES
 body
@@ -23,8 +23,17 @@ h1, h2, h3, h4, h5, h6
 input 
     font-family: Quicksand
 
+button
+    user-select: none
+
 a
     color: inherit
+
+    &:hover
+        color: $primaryRed
+
+section a
+    color: $primaryBlue
 
 
 //IMPORTS
@@ -32,4 +41,8 @@ a
 @import './components/buttons'
 @import './components/misc'
 @import './components/loader'
+@import './components/modal'
 @import './components/editmodal'
+@import './components/projectsearchbar'
+@import './components/application'
+@import './components/pagination'
