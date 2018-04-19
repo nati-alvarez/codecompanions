@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 
 //ACTIONS
-import {createTask} from '../../../actions/projects';
+import {createTask, completeTask} from '../../../actions/projects';
 
 //COMPONENTS
 import NewTaskModal from './NewTaskModal';
@@ -31,7 +31,7 @@ class Tasks extends Component {
                 <div className="tasks grid-x grid-margin-x">
                     {this.props.project.tasks.map(task => {
                         return(
-                            <Task task={task}/>
+                            <Task completeTask={this.props.completeTask} task={task}/>
                         )
                     })}
                 </div>
@@ -45,7 +45,8 @@ class Tasks extends Component {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        createTask: (projectId, taskName, taskDescription, taskUsers) => dispatch(createTask(projectId, taskName, taskDescription, taskUsers))
+        createTask: (projectId, taskName, taskDescription, taskUsers) => dispatch(createTask(projectId, taskName, taskDescription, taskUsers)),
+        completeTask: (projectId, taskId) => dispatch(completeTask(projectId, taskId))
     }
 }
  

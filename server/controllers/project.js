@@ -56,7 +56,7 @@ exports.getProject = (req, res) => {
     .populate("members", ["username", "name", "email", "profilePicture", "github", "title", "_id"])
     .populate("owner", ["username", "name", "email", "profilePicture", "github", "title", "_id"])
     .populate("channels")
-    .populate("tasks")
+    .populate({path: "tasks", options: {sort: {status: 1, createdAt: -1}}})
     .then(project => {
         //populate nested refs to users in task
         project.populate({path: "tasks.users",select: {username: 1, profilePicture: 1}, model: "User"}, function(err, project){
@@ -144,7 +144,6 @@ exports.createTask = async (req, res) => {
 
     try{
         isAuthorized = await Project.findOne({_id: req.params.id, owner: req.user._id});
-
         if(!isAuthorized) return res.status(401).json({success: false, message: "You are not authorized to do that"})
     }catch(err){
         return res.status(500).json({sucess: false, message: "Error creating task", err});
@@ -159,7 +158,13 @@ exports.createTask = async (req, res) => {
 
     task.save().then(task=>{
         Project.findOneAndUpdate({_id: req.params.id}, {$push: {tasks: task._id}}).then(project=>{
-            return res.status(201).json({sucess: true, task});
+            task.populate({path: "users", select: {username: 1, profilePicture: 1}, model: "User"}, function(err, task){
+                if(err){
+                    console.log(err);
+                    return res.status(500).json({success: false, message: "Error creating task", err});
+                }
+                res.status(201).json({success: true, task});
+            });
         }).catch(err=>{
             console.log(err);
             return res.status(500).json({sucess: false, message: "Error creating task", err});
@@ -167,6 +172,30 @@ exports.createTask = async (req, res) => {
     }).catch(err=>{
         console.log(err);
         return res.status(500).json({sucess: false, message: "Error creating task", err});
+    });
+}
+
+exports.completeTask = (req, res) => {
+    Task.findById(req.body.taskId).then(task=>{
+        if(task.users.indexOf(req.user._id > -1)){
+            task.status = 2;
+            task.save().then(task=>{
+                task.populate({path: "users", select: {username: 1, profilePicture: 1}, model: "User"}, function(err, task){
+                    if(err){
+                        console.log(err)
+                        return res.status(500).json({success: false, message: "Error updating task", err});
+                    }
+                    res.status(200).json({success: true, task});
+                })
+            }).catch(err=>{
+                console.log(err);
+                res.status(500).json({success: false, message: "Error updating task", err});
+            })
+        }else {
+            res.status(401).json({success: false, message: "You are not authorized to do this"});
+        }
+    }).catch(err=>{
+        res.status(500).json({success: false, message: "Error updating task", err});
     });
 }
 

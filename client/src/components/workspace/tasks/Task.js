@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 
 class Task extends Component {
     render(){
+        const currentUser = JSON.parse(localStorage.getItem('user'));
         var status;
         var statusClass;
         switch(this.props.task.status){
@@ -29,6 +30,12 @@ class Task extends Component {
                         return <img width="35" height="35" src={user.profilePicture}/>
                     })}
                 </div>
+                <br/>
+                {this.props.task.users.map(user=>{
+                    if(user._id == currentUser._id && this.props.task.status === 0){
+                        return <button onClick={()=> this.props.completeTask(this.props.task.project, this.props.task._id)}className="button btn-primary-bold">Mark As Complete</button>
+                    }
+                })}
             </div>
         )
     }

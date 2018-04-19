@@ -20,6 +20,7 @@ class Commit extends Component {
                 </p>
                 <small className="help-text">{commitDate.toLocaleDateString()} {commitDateTime}</small>
                 <p>{commit.message}</p>
+                <a href={`https://github.com/${this.props.gitUser}/${this.props.gitRepo}/commit/${commit.url.substr(-40, 40)}`}>View on Github</a>
             </div>
         )
     }

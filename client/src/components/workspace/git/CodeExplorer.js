@@ -6,6 +6,12 @@ import FontAwesome from '@fortawesome/react-fontawesome';
 import faFile from '@fortawesome/fontawesome-free-solid/faFile';
 import faFolder from '@fortawesome/fontawesome-free-solid/faFolder';
 
+//CODE HIGHLIGHTING
+import Code from 'react-highlight';
+
+// import "react-syntax-highlight/lib/style.css";
+import "highlight.js/styles/xcode.css";
+
 class CodeExplorer extends Component {
     constructor(){
         super();
@@ -18,7 +24,6 @@ class CodeExplorer extends Component {
         this.getFileContent = this.getFileContent.bind(this);
     }
     navigateBreadcrumbs(index){
-        console.log(index);
         if(index + 1 < this.state.currentPath.length){
             var diff = this.state.currentPath.length - (index + 1); //difference in length between bread crumb level and path array length
             var maxLength = this.state.currentPath.length - diff; //the length the array should be at after going back n number of dir levels
@@ -31,8 +36,6 @@ class CodeExplorer extends Component {
                     pathType: "dir", //if traversing back in the dir stucture, you should be going back into a folder
                     pathContent: null //important to clear content here, dir structure won't show otherwise (see render method)
                 }, () =>{
-                    console.log(this.state.currentPath)
-                    console.log("hellow")
                     this.props.updateRepoContent(this.props.project.owner.github.username, this.props.project.repo, this.state.currentPath.join("/"))
                 }
             )
@@ -56,12 +59,10 @@ class CodeExplorer extends Component {
         //checks if pathContent is null bc not doing so would result in infinite loop
         //path content would be updated then this method would run then content would be updated and so on
         if(this.state.pathType === "file" && this.state.pathContent === null && this.props.contents.length === 1){
-            console.log(this.props.contents[0].download_url);
             this.getFileContent(this.props.contents[0].download_url);
         }
     }
     getFileContent(url){
-        console.log(url)
         axios.get(url, {responseType: "text", transformResponse: undefined}).then(res=>{
             this.setState({pathContent: res.data})
         }).catch(err=>{
@@ -69,9 +70,8 @@ class CodeExplorer extends Component {
         })
     }
     render(){
-        console.log(this.state.currentPath.join(""))
         return (
-            <div className="code-explorer">
+            <div className="code-explorer scrollbar">
                 <ul className="breadcrumbs">
                     {this.state.currentPath.map((path, index)=>{
                         if(path === "") return <li onClick={()=>this.navigateBreadcrumbs(index)}><a>/</a></li>
@@ -94,7 +94,11 @@ class CodeExplorer extends Component {
                         </div>
                     )
                 })}
-                {this.state.pathContent}
+                {this.state.pathContent &&
+                    <Code language="javascript">
+                        {this.state.pathContent}
+                    </Code>
+                }
             </div>
         )
     }

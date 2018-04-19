@@ -8,5 +8,6 @@ router.get("/:id", passport.authenticate("jwt", {session: false}), controller.ge
 router.post("/:id/chat", passport.authenticate("jwt", {session: false}), controller.createTextChannel);
 router.put("/:id/chat", passport.authenticate("jwt", {session: false}), controller.sendMessage);
 router.post("/:id/tasks", passport.authenticate("jwt", {session: false}), controller.createTask);
+router.put("/:id/tasks", passport.authenticate('jwt', {session: false}), controller.completeTask);
 
 module.exports = router;

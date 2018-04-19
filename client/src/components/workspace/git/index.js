@@ -16,15 +16,19 @@ import CodeExplorer from './CodeExplorer';
 
 class Git extends Component {
     componentDidMount(){
+        if(!this.props.project.repo || !this.props.project.owner.github) return;
         this.props.getRepoInfo(this.props.project.owner.github.username, this.props.project.repo)
     }
     render(){
-        console.log(this.props.gitContents)
+        console.log(this.props.gitRepo)
+        if(!this.props.project.repo || !this.props.project.owner.github)
+            return <div className="workspace-git content">No repository added to project</div>
         return (
             <div className="workspace-git content">
                 <div className="repo-commits grid-x grid-padding-x">
                     <div className="repo-info cell medium-6 small-12">
                         <h3>Repository Info</h3>
+                        <p>{this.props.gitRepo && this.props.gitRepo.description}</p>
                         <div className="link">
                             <strong>HTML Link:</strong><br/> <a href={this.props.gitRepo && this.props.gitRepo.html_url}>
                                 {this.props.gitRepo && this.props.gitRepo.html_url}
@@ -35,13 +39,18 @@ class Git extends Component {
                                 {this.props.gitRepo && this.props.gitRepo.git_url}
                             </a>
                         </div>
+                        <div className="link">
+                            <strong>SSH Link:</strong><br/><a href={this.props.gitRepo && this.props.gitRepo.ssh_url}>
+                                {this.props.gitRepo && this.props.gitRepo.ssh_url}
+                            </a>
+                        </div>
                     </div>
                     <div className="commit-history cell medium-6 small-12 scrollbar">
                         <h3>Commit History</h3>
                         <div className="commits">
                             {this.props.gitCommits &&
                                 this.props.gitCommits.map(commit=>{
-                                    return <Commit project={this.props.project} commit={commit}/>  
+                                    return <Commit gitUser={this.props.project.owner.github.username} gitRepo={this.props.project.repo} project={this.props.project} commit={commit}/>  
                                 })
                             }
                         </div>

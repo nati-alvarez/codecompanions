@@ -19,6 +19,7 @@ import '../../styles/pages/workspace.sass';
 
 class Workspace extends Component {
     componentDidMount(){
+        console.log(this.props)
         this.props.dispatch(getProject(this.props.match.params.id));
     }
     render(){

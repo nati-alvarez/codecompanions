@@ -83,10 +83,21 @@ exports.sendMessage = (projectId, channelName, messageBody) => {
 exports.createTask = (projectId, taskName, taskDescription, taskUsers) => {
     return (dispatch) => {
         axios.post(`${API_URL}/projects/${projectId}/tasks`, {taskName, taskDescription, taskUsers}, {headers: {authorization: `Bearer ${localStorage.getItem("token")}`}}).then(res=>{
-            console.log(res);
+            dispatch({type: 'CREATE_TASK_SUCCESS', payload: res.data.task});
         }).catch(err=>{
             console.log(err);
         })
+    }
+}
+
+exports.completeTask = (projectId, taskId) =>{
+    return (dispatch) => {
+        axios.put(`${API_URL}/projects/${projectId}/tasks`, {taskId, projectId}, {headers: {authorization: `Bearer ${localStorage.getItem("token")}`}}).then(res=>{
+            console.log('did it')
+            dispatch({type: 'COMPLETE_TASK_SUCCESS', payload: res.data.task});
+        }).catch(err=>{
+            console.log(err);
+        });
     }
 }
 

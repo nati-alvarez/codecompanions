@@ -44,6 +44,26 @@ export default function reducer(state = {
                 ...state,
                 gitContents: action.payload
             }
+        case "CREATE_TASK_SUCCESS":
+            return {
+                ...state,
+                project: {
+                    ...state.project,
+                    tasks: state.project.tasks.concat(action.payload)
+                }
+            }
+        case "COMPLETE_TASK_SUCCESS":
+            return {
+                ...state,
+                project: {
+                    ...state.project,
+                    tasks: state.project.tasks.map(task=>{
+                        if(task._id === action.payload._id)
+                            return action.payload;
+                        return task;
+                    })
+                }
+            }
         default: 
             return state;
     }
