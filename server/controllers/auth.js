@@ -2,18 +2,25 @@ const User = require("../models/User");
 const uuid = require("uuid/v1");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const nodemailer = require("nodemailer");
 
 //email server for sending verification email
 const Email = require('email-templates');
 
-
+var transporter = nodemailer.createTransport({
+    host: 'smtp.zoho.com',
+    port: 465,
+    secure: true, // use SSL
+    auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS
+    }
+});
 const email = new Email({
     message: {
       from: process.env.EMAIL_USER
     },
-    transport: {
-      jsonTransport: true
-    }
+    transport: transporter
 });
 
 exports.login = (req, res) => {
@@ -105,6 +112,7 @@ exports.sendPasswordRecoveryEmail = (req, res) => {
         }).then(data => {
             res.status(200).json({success: true, message: "Password recovery email sent."});
         }).catch(err => {
+            console.log(err);
             res.status(500).json({success: false, message: "Error sending password recovery email."});
         })
     });

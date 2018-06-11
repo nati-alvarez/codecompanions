@@ -8,6 +8,9 @@ nav.top-bar
     padding: 0px
     z-index: 10
 
+    img
+        vertical-align: middle
+
     a:hover
         color: $primaryRed
 
@@ -15,8 +18,11 @@ nav.top-bar
         background: inherit
         position: relative
 
+        li
+            padding: 8px 0px
+
         .dropdown-parent
-            padding: 10px 20px
+            position: relative
 
         .dropdown-parent:hover .dropdown
             display: block
@@ -39,7 +45,7 @@ nav.top-bar
             color: #0a0a0a
             border-top: none
             text-align: left
-            width: 150%
+            width: 200%
             font-size: 18px
             top: 100%
             right: -10%
@@ -56,8 +62,53 @@ nav.top-bar
         font-family: Pathway Gothic One
         font-size: 22px
 
+        li
+            padding: 10px
+
         .profile-pic
             margin: 0px 10px
             border-radius: 50%
 
-    
+    .notifications
+        position: relative
+        top: 0
+        bottom: 0
+
+        .dropdown
+            width: 600% !important
+            max-width: 300px
+
+    .new-notifications
+        width: 10px
+        height: 10px
+        position: absolute
+        top: 1rem
+        right: .6rem
+        background: $primaryRed
+        border-radius: 50%
+
+    .notification
+        padding: .4rem 1rem
+
+        &:hover
+            background: darken(#efefef, 5%)
+
+        .actions
+            margin-top: .4rem
+
+            .details
+                background: inherit
+                color: $primaryRed
+                padding: 0 !important
+                display: inline-block
+                margin-right: 10px !important
+
+                &:hover
+                    text-decoration: underline
+
+            .mark-as-read
+                display: inline-block
+                color: $primaryRed
+
+                &:hover
+                    text-decoration: underline

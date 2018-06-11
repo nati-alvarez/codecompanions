@@ -8,7 +8,7 @@ import {getProject} from '../../actions/projects';
 //COMPONENTS
 import Sidebar from './Sidebar';
 import WorkspaceHeader from './WorkspaceHeader';
-import Home from './Home';
+import Home from './home';
 import Chat from './chat';
 import Tasks from './tasks';
 import Git from './git';

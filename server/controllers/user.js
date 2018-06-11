@@ -1,5 +1,15 @@
 const User = require("../models/User");
 
+//for finding users that exists when creating a project invitation
+exports.getUsers = (req, res) => {
+    if(!req.body.username)
+        return res.status(200).json({success: true, users: []});
+    User.find({username: new RegExp('^' + req.body.username, "i")}).limit(5).then(users=>{
+        console.log(users);
+        return res.status(200).json({success: true, users});
+    });
+}
+
 exports.getUser = (req, res) => {
     User.findOne({username: req.params.username}).then(user => {
         if (!user) return res.status(404).json({success: false, message: "User not found."});

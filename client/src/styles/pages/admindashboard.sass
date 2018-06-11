@@ -1,0 +1,24 @@
+@import '../vars'
+    
+.admin-dashboard
+    padding: 6em 2% 3%
+
+    .all-posts
+
+        .row-header
+            font-weight: bold
+
+        .row:nth-of-type(odd)
+            background: #efefef
+
+        .row, .row-header
+            display: grid
+            grid-template-columns: 1fr 1fr 1fr 1fr 1fr
+            grid-column-gap: .2em
+            padding: 5px 0px
+
+            a, button
+                color: $primaryRed
+                
+                svg
+                    margin-left: 4px

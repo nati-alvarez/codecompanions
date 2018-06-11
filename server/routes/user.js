@@ -2,6 +2,7 @@ const router = require("express").Router();
 const passport = require("passport");
 const controller = require("../controllers/user");
 
+router.post("/", controller.getUsers);
 router.get("/:username", passport.authenticate('jwt', {session: false}), controller.getUser);
 router.put("/:username", passport.authenticate('jwt', {session: false}), controller.updateUser);
 

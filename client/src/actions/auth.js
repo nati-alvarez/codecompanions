@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {API_URL, AUTH_HEADERS} from '../env';
+import {API_URL} from '../env';
 
 exports.login = (body) => {
     return (dispatch) => {

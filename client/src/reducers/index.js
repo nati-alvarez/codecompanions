@@ -6,7 +6,10 @@ import myProjects from './myProjects';
 import processStatus from './processStatus';
 import workspace from './workspace';
 import keywords from './keywords';
+import notifications from './notifications';
 import user from './user';
+import projectInvitations from './projectInvitations';
+import blog from './blog';
 
 export default combineReducers({
     auth: authReducer,
@@ -15,5 +18,8 @@ export default combineReducers({
     processStatus: processStatus,
     workspace: workspace,
     keywords: keywords,
-    user: user
+    user: user,
+    notifications: notifications,
+    projectInvitations: projectInvitations,
+    blog: blog
 });

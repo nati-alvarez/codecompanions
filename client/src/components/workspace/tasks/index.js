@@ -19,6 +19,11 @@ class Tasks extends Component {
         }
         this.closeCreateTaskModal = this.closeCreateTaskModal.bind(this);
     }
+    componentDidUpdate(){
+        //closes modal on successful task creationc
+        if (this.props.successMessage && this.state.showCreateTaskModal) this.closeCreateTaskModal();
+        console.log(this.props.successMessage);
+    }
     closeCreateTaskModal(){
         this.setState({...this.state, showCreateTaskModal: false});
     }
@@ -43,6 +48,14 @@ class Tasks extends Component {
     }
 }
 
+const mapStateToProps = (state) => {
+    return {
+        loading: state.workspace.loading,
+        successMessage: state.workspace.successMessage,
+        errorMessage: state.workspace.errorMessage
+    }
+}
+
 const mapDispatchToProps = (dispatch) => {
     return {
         createTask: (projectId, taskName, taskDescription, taskUsers) => dispatch(createTask(projectId, taskName, taskDescription, taskUsers)),
@@ -50,4 +63,4 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
  
-export default connect(null, mapDispatchToProps)(Tasks);
+export default connect(mapStateToProps, mapDispatchToProps)(Tasks);

@@ -14,12 +14,20 @@
 @import 'vars'
 
 //BASE STYLES
+*
+    box-sizing: border-box
+
 body
     font-family: Quicksand
 
 h1, h2, h3, h4, h5, h6
     font-family: Pathway Gothic One
+    font-weight: normal
 
+    //for header tags in froala editor
+    strong
+        font-family: Pathway Gothic One !important
+        font-weight: normal !important
 input 
     font-family: Quicksand
 
@@ -32,6 +40,9 @@ a
     &:hover
         color: $primaryRed
 
+    &:focus
+        color: inherit
+        
 section a
     color: $primaryBlue
 
@@ -46,3 +57,7 @@ section a
 @import './components/projectsearchbar'
 @import './components/application'
 @import './components/pagination'
+@import './components/invitationmodal'
+@import './components/userslist'
+@import './components/deletepost'
+

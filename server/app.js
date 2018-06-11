@@ -1,10 +1,16 @@
 require("dotenv").config();
 const express = require("express");
 const app = express();
+const server = require("http").Server(app);
+const io = require("socket.io")(server);
 const path = require("path");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
-mongoose.connect("mongodb://localhost/codecompanions");
+
+if(process.env.NODE_ENV === "production")
+    mongoose.connect(process.env.DB_CONNECTION_STRING);
+else
+    mongoose.connect("mongodb://localhost/codecompanions");
 
 //passport config for api auth
 const User = require("./models/User");
@@ -45,4 +51,19 @@ app.get("/*", (req, res)=>{
     res.sendFile(path.resolve(__dirname, "..", "dist/index.html"));
 });
 
-app.listen(8000, console.log("App is running"));
+//websockets
+var chat = io.of('/ws-chat')
+.on('connection', (socket)=>{
+    var room;
+    socket.on('get-messages', (projectId, channelName, messages)=>{
+        if(room)
+            socket.leave(room);
+        room = projectId + "-" + channelName;
+        socket.join(room);
+    });
+    socket.on('send-message', (message, author)=>{
+        socket.to(room).emit('new-messages', message, author);
+    });
+});
+
+server.listen(process.env.PORT || 8000, console.log("App is running"));

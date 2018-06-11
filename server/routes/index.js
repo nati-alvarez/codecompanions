@@ -7,12 +7,18 @@ const userRoutes = require("./user");
 const projectListingRoutes = require("./projectListings");
 const projectRoutes = require("./project");
 const applicationRoutes = require("./application");
+const notificationRoutes = require("./notifications");
+const projectInvitationRoutes = require("./projectInvitations");
+const blogRoutes = require("./blog");
 
 router.use('/auth', authRoutes);
 router.use("/users", userRoutes);
 router.use("/project-listings", projectListingRoutes);
 router.use("/projects", projectRoutes);
 router.use("/applications", applicationRoutes);
+router.use("/project-invitations", projectInvitationRoutes)
+router.use("/notifications", notificationRoutes);
+router.use("/blog", blogRoutes);
 
 // proxying trendyskills api bc it doesn't support CORS
 // TODO: maybe put this somewhere else shit idk lol

@@ -19,8 +19,9 @@ class WorkspaceHeader extends Component {
                         <a href={`#/workspace/${this.props.project._id}/tasks`}>Tasks</a>
                         <a href={`#/workspace/${this.props.project._id}/git`}>Git</a>
                     </ul>
+                {/* TODO: show or remove this when i figure out what the fuck i wanna do  with it */}
                 <div className="settings">
-                    <FontAwesomeIcon icon={faCogs}/>
+                    {/* <FontAwesomeIcon icon={faCogs}/> */}
                 </div>
             </header>
         );

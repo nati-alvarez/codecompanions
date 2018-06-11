@@ -10,6 +10,25 @@ export default function reducer(state={
 }, action){
     var submitButton = document.getElementById('submit-button');
     switch(action.type){
+        case 'SEND_PROJECT_INVITATION_START':
+            return {
+                ...state,
+                loading: true,
+                errorMessage: null,
+                successMessage: null
+            }
+        case 'SEND_PROJECT_INVITATION_SUCCESS':
+            return {
+                ...state,
+                loading: false,
+                successMessage: action.payload
+            }
+        case 'SEND_PROJECT_INVITATION_ERROR':
+            return {
+                ...state, 
+                loading: false,
+                errorMessage: action.payload,
+            }
         case "CREATE_PROJECT_START":
             return {loading: true, errorMessage: null, successMessage: null};
         case "CREATE_PROJECT_SUCCESS":

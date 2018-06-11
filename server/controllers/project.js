@@ -1,8 +1,12 @@
 const router = require("express").Router();
+
+//MODELS
+const User = require("../models/User");
 const Project = require("../models/Project");
 const ProjectListing = require("../models/ProjectListing");
 const Channel = require("../models/Channel");
 const Task = require("../models/Task");
+const ProjectInvitation = require("../models/ProjectInvitation");
 
 exports.createProject = async (req, res) => {
     var newProjectListing = new ProjectListing({
@@ -42,7 +46,6 @@ exports.createProject = async (req, res) => {
 //gets all projects where the user is a member
 //used for myProjects page on site
 exports.getMyProjects = (req, res) => {
-    console.log(req.user.username)
     Project.find({members: req.user._id})
     .populate('owner',['username', 'name', 'profilePicture']).then(projects => {
         res.status(200).json({success: true, projects});
@@ -69,6 +72,54 @@ exports.getProject = (req, res) => {
         console.log(err);
     });
 }
+
+/*****************************
+ * 
+ * PROJECT INVITATION FUNCTIONS
+ *
+*****************************/
+exports.sendProjectInvitation = async (req, res) => {
+    var user;
+    try{
+        user = await User.findOne({username: req.body.recipient});
+        if(!user) return res.status(200).json({success: false, message: "User not found"});
+    }catch(err){
+        console.log(err);
+        return res.status(500).json({success: false, message: "Error sending project invitation"});
+    }
+
+    var project;
+    try{
+        project = await Project.findOne({_id: req.body.project}).lean();
+
+        //using toString on the ids because for some reason when I compare them normally
+        //they are not equal to one another no matter what even if they are the exact same id
+        //will fix later
+        if(req.user._id.toString() != project.owner.toString())
+            return res.status(200).json({success: false, message: "Only the project owner can send invites"});
+        if(project.members.indexOf(user._id) >= 0)
+            return res.status(500).json({success: false, message: "This user is already a project member"});
+
+    }catch(err){
+        console.log(err);
+        return res.status(500).json({success: false, message: "Error sending project invitation"});
+    }
+
+    var invitation = new ProjectInvitation({
+        project: req.body.project,
+        recipient: user._id,
+    });
+
+    console.log("what the fuck");
+
+    invitation.save().then(invitation=>{
+        res.status(201).json({success: true, invitation, message: "Project invitation sent"});
+    }).catch(err=>{
+        console.log(err);
+        res.status(500).json({success: false, message: "Error sending project invitation"});
+    })
+}
+
 
 
 /********************* 

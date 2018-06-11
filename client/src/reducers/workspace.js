@@ -13,6 +13,8 @@ export default function reducer(state = {
         case "GET_PROJECT_SUCCESS":
             return {...state, loading: false, errorMessage: null, project: action.payload};
         case "SEND_MESSAGE_SUCCESS":
+        case "WS_NEW_MESSAGE":
+            console.log(action.payload);
             return {
                 ...state,
                 project: {
@@ -29,6 +31,29 @@ export default function reducer(state = {
                     })
                 }
             }
+        case 'CREATE_TEXT_CHANNEL_START':
+            return {
+                ...state,
+                loading: true,
+                errorMessage: null,
+                successMessage: null
+            }
+        case 'CREATE_TEXT_CHANNEL_SUCCESS':
+            return {
+                ...state,
+                loading: false,
+                successMessage: "Text channel created",
+                project: {
+                    ...state.project,
+                    channels: state.project.channels.concat(action.payload)
+                }
+            }
+        case 'CREATE_TEXT_CHANNEL_ERROR':
+            return {
+                ...state,
+                loading: false,
+                errorMessage: "Error creating text channel"
+            }
         case "GET_REPO_INFO_SUCCESS":
             return {
                 ...state,
@@ -44,13 +69,29 @@ export default function reducer(state = {
                 ...state,
                 gitContents: action.payload
             }
+        case "CREATE_TASK_START":
+            return {
+                ...state, 
+                loading: true,
+                errorMessage: null,
+                successMessage: null
+            }
+        case "CREATE_TASK_ERROR":
+            return {
+                ...state, 
+                loading: false,
+                errorMessage: action.payload,
+            }
         case "CREATE_TASK_SUCCESS":
             return {
                 ...state,
                 project: {
                     ...state.project,
                     tasks: state.project.tasks.concat(action.payload)
-                }
+                },
+                loading: false, 
+                successMessage: "Task Created",
+                errorMessage: null
             }
         case "COMPLETE_TASK_SUCCESS":
             return {
@@ -63,6 +104,13 @@ export default function reducer(state = {
                         return task;
                     })
                 }
+            }  
+        case "CLEAR_STATUS_DATA": //clears loading, success/error message status data
+            return {
+                ...state,
+                loading: false, 
+                successMessage: null,
+                errorMessage: null
             }
         default: 
             return state;

@@ -33,7 +33,9 @@ class MessageInput extends Component {
         this.props.sendMessage(this.props.projectId, this.props.channel.name, message);
 
         this.setState({...this.state, message: ""});
-        document.getElementById("input").value = ""; 
+        document.getElementById("input").value = "";
+        this.props.socket.emit('send-message', message, JSON.parse(localStorage.getItem("user")));
+
     }
     render(){
         return (

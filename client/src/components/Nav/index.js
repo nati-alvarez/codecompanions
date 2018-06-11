@@ -4,24 +4,66 @@ import {Link} from 'react-router-dom';
 
 //ACTIONS
 import {logout} from '../../actions/auth';
+import {getNotifications} from '../../actions/notifications';
+
+//IMAGES
+import bell from '../../img/bell.svg';
 
 class Nav extends Component {
+    componentDidMount(){
+        this.props.getNotifications();
+    }
     render(){
+        console.log(this);
         return (
             <nav className="top-bar">
                 {localStorage.getItem("isLoggedIn") &&
                     <ul className="top-bar-left menu">
-                        <Link to="/" className="logo">_Code Companions</Link>
-                        <Link to="/dash/my-projects">My Projects</Link>
-                        <Link to="/dash/projects">Find Projects</Link>
+                        <li><Link to="/" className="logo">_Code Companions</Link></li>
+                        <li><Link to="/dash/my-projects">My Projects</Link></li>
+                        <li><Link to="/dash/projects">Find Projects</Link></li>
+                        <li className="dropdown-parent">
+                            <Link to="/blog">Blog</Link>
+                            <ul className="menu dropdown">
+                                <Link to="/blog/admin">Admin</Link>
+                            </ul>
+                        </li>
                     </ul>
                 }
                 {!localStorage.getItem("isLoggedIn") &&
                     <ul className="top-bar-left menu">
-                        <Link to="/" className="logo">_Code Companions</Link>
+                        <li><Link to="/" className="logo">_Code Companions</Link></li>
+                        <li><Link to="/blog">Blog</Link></li>
                     </ul>
                 }
                 <ul className="top-bar-right menu">
+                    <li className="dropdown-parent notifications">
+                        <img width="25" height="25" src={bell}/>
+                        {this.props.notifications.filter(notification=> notification.status === 0).length > 0 &&
+                            <div className="new-notifications"></div>
+                        }
+                        <ul className="menu dropdown">
+                            {this.props.notifications.length < 1 &&
+                                <div className="notification">
+                                    No new notifications.
+                                </div>
+                            }
+                            {this.props.notifications.map(notification=>{
+                                if(notification.status !== 0)
+                                    return;
+                                return (
+                                    <div className="notification">
+                                        {notification.project.owner.username}&nbsp; 
+                                        Invited You To A Project
+                                        <div className="actions">
+                                            <a className="details" href={"#/dash/project-invitation/"+notification._id}>See Details</a>
+                                            <button className="mark-as-read">Mark As Read</button>
+                                        </div>
+                                    </div>
+                                )
+                            })}
+                        </ul>
+                    </li>
                     {localStorage.getItem("isLoggedIn") &&
                         <li className="dropdown-parent">
                             <img className="profile-pic" width="35" height="35" src={this.props.user.profilePicture}/>
@@ -40,13 +82,15 @@ class Nav extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        user: state.auth.user
+        user: state.auth.user,
+        notifications: state.notifications.notifications
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        logout: () => dispatch(logout())
+        logout: () => dispatch(logout()),
+        getNotifications: () => dispatch(getNotifications())
     }
 }
 

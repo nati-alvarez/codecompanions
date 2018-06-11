@@ -47,7 +47,7 @@ class NewProject extends Component {
                 return this.setState({input: {...this.state.input, projectListingDescription: e.target.value}});
             case "skills":
                 this.props.getSkillsList(e.target.value);
-                console.log(e)
+                console.log(e);
                 if(e.key === "Enter"){
                     console.log("you hit the enter key")
                     return this.addSkill(e.target.value);
@@ -64,7 +64,7 @@ class NewProject extends Component {
         };
 
         this.setState({
-            ...this.state, 
+            ...this.state,
             input: {
                 ...this.state.input,
                  skills: this.state.input.skills.concat(skill)
@@ -86,7 +86,7 @@ class NewProject extends Component {
     submit(e){
         e.target.disabled = true;
         for (let prop in this.state.input){
-            if (!this.state.input[prop] && (prop !== 'githubRepo' && prop !== 'projectLogo' && prop !== 'skills')){ 
+            if (!this.state.input[prop] && (prop !== 'githubRepo' && prop !== 'projectLogo' && prop !== 'skills')){
                 return this.props.createProjectErr("Fill out all requried fields");
             }
         }
@@ -101,7 +101,7 @@ class NewProject extends Component {
                 <h3>Create a New Project</h3>
                 <div className="new-project-form">
                     <div className="form-field">
-                        <label> <span className="required">*</span>Project Name: 
+                        <label> <span className="required">*</span>Project Name:
                             <input onChange={e => this.updateInput(e, 'projectTitle')} type="text"/>
                         </label>
                         <small className="help-text">The name of the product, project, website, game or whatever
@@ -140,7 +140,7 @@ class NewProject extends Component {
                         <label><small className="required">*</small>Project Listing Title:
                             <input onChange={e => this.updateInput(e, 'projectListingTitle')} type="text"/>
                         </label>
-                        <small className="help-text">This is the title that people will see when 
+                        <small className="help-text">This is the title that people will see when
                         searching for projects to join.</small>
                     </div>
                     <div className="form-field">
@@ -152,7 +152,7 @@ class NewProject extends Component {
                         Be very thorough and specific.</small>
                     </div>
                     <div className="form-field">
-                        <label>Skills Required: 
+                        <label>Skills Required:
                                 <div className="skill-tags">
                                     {!this.state.input.skills[0] &&
                                         <em>No skills added</em>

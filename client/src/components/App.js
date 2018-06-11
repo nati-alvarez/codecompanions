@@ -14,6 +14,9 @@ import Workspace from './workspace';
 import RecoverPassword from './recoverPassword';
 import ResetPassword from './recoverPassword/resetForm';
 import VerifyAccount from './account/Verify';
+import Blog from './blog';
+import PostView from './blog/PostView';
+import Admin from './blog/admin'
 
 class App extends Component {
     render(){
@@ -22,6 +25,9 @@ class App extends Component {
                 <Switch>
                     <Route exact path="/" component={HomePage}/> 
                     <Route path="/dash" component={Dash}/>
+                    <Route exact path="/blog" component={Blog}/>
+                    <Route path="/blog/admin" component={Admin}/>
+                    <Route path="/blog/post/:id" component={PostView}/>
                     <Route path="/workspace/:id" component={Workspace}/>
                     <Route path="/account/forgot" component={RecoverPassword}/>
                     <Route path="/account/reset" component={ResetPassword}/>

@@ -48,6 +48,25 @@ exports.clearFormStatus = () => {
     }
 }
 
+/********************
+ * 
+ * PROJECT INVITATION ACTIONS
+ * 
+*********************/
+exports.sendProjectInvitation = (project, recipient) => {
+    return (dispatch) => {
+        dispatch({type: "SEND_PROJECT_INVITATION_START"});
+        axios.post(`${API_URL}/projects/project-invitation`, {project, recipient}, {headers: {authorization: `Bearer ${localStorage.getItem("token")}`}}).then(res=>{
+            console.log(res.data)
+            if(res.data.success)
+                return dispatch({type: 'SEND_PROJECT_INVITATION_SUCCESS', payload: res.data.message});
+            dispatch({type: 'SEND_PROJECT_INVITATION_ERROR', payload: res.data.message});
+        }).catch(err=>{
+            console.log(err);
+        });
+    }
+}
+
 /*********************
  * 
  * CHAT CHANNEL ACTIONS
@@ -55,10 +74,13 @@ exports.clearFormStatus = () => {
 *********************/
 exports.createTextChannel = (projectId, channelName) => {
     return (dispatch) =>{
+        dispatch({type: "CREATE_TEXT_CHANNEL_START"});
         axios.post(`${API_URL}/projects/${projectId}/chat`, {projectId, channelName}, {headers: {authorization: `Bearer ${localStorage.getItem("token")}`}}).then(res=>{
-            console.log(res)
+            dispatch({type: "CREATE_TEXT_CHANNEL_SUCCESS", payload: res.data.channel});
+            console.log(res);
         }).catch(err=>{
-            console.log(err)
+            dispatch({type: "CREATE_TEXT_CHANNEL_ERROR"});
+            console.log(err);
         });
     }
 }
@@ -71,6 +93,12 @@ exports.sendMessage = (projectId, channelName, messageBody) => {
         }).catch(err=>{
             console.log(err);
         });
+    }
+}
+
+exports.wsNewMessage = (messageBody, author, channelName) => {
+    return (dispatch) => {
+        dispatch({type: "WS_NEW_MESSAGE", payload: {message: {body: messageBody, author: author}, channelName}});
     }
 }
 

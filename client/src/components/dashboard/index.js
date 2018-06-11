@@ -4,6 +4,7 @@ import {Route} from 'react-router-dom';
 
 //COMPONENTS
 import Nav from '../Nav';
+import DashHome from './home';
 import AccountInfo from '../account/index';
 import FindProjects from './findProjects';
 import MyProjects from './myProjects';
@@ -26,7 +27,7 @@ class Dash extends Component {
             <div className="dashboard">
                 <Nav/>
                 <main>
-                    <Route exact path={this.props.match.path} render={() => <h1>This is the dashboard</h1>}/>
+                    <Route exact path={this.props.match.path} render={() => <DashHome user={this.props.user}/>}/>
                     <Route exact path={this.props.match.path + "/account"} render={() => <AccountInfo user={this.props.user}/>}/>
                     <Route path={this.props.match.path + "/users/:username"} component={AccountPage}/>    
                     <Route exact path={this.props.match.path + "/projects"} render={() => <FindProjects user={this.props.user}/>}/>
