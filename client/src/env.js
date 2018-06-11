@@ -1,1 +1,1 @@
-exports.API_URL = 'http://localhost:8000/api';
+exports.API_URL = 'http://codecompanions.herokuapp.com/api';
