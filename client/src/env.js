@@ -1,1 +1,1 @@
-exports.API_URL = 'http://codecompanions.herokuapp.com/api';
+exports.API_URL = 'https://codecompanions.herokuapp.com/api';
