@@ -11,6 +11,7 @@ import MyProjects from './myProjects';
 import NewProject from './newProject';
 import ProjectListingPage from './projectListing';
 import AccountPage from '../account/AccountPage';
+import ProjectInvitation from './projectInvitation';
 
 //STYLES
 import '../../styles/pages/dash.sass';
@@ -34,6 +35,7 @@ class Dash extends Component {
                     <Route exact path={this.props.match.path + "/projects/new"} render={() => <NewProject user={this.props.user}/>}/>
                     <Route path={this.props.match.path + "/projects/project/:id"} render={() => <ProjectListingPage history={this.props.history} user={this.props.user}/>}/>
                     <Route path={this.props.match.path + "/my-projects"} render={() => <MyProjects user={this.props.user}/>}/>
+                    <Route path={this.props.match.path + "/project-invitation/:invitationId"} render={()=> <ProjectInvitation history={this.props.history} user={this.props.user}/>}/>
                 </main>
             </div>
         );

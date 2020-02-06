@@ -9,6 +9,8 @@ router.get("/:id", passport.authenticate("jwt", {session: false}), controller.ge
 router.post("/:id/chat", passport.authenticate("jwt", {session: false}), controller.createTextChannel);
 router.put("/:id/chat", passport.authenticate("jwt", {session: false}), controller.sendMessage);
 
+router.get("/:id/channels", passport.authenticate("jwt", {session: false}), controller.getTextChannels);
+
 router.post("/:id/tasks", passport.authenticate("jwt", {session: false}), controller.createTask);
 router.put("/:id/tasks", passport.authenticate('jwt', {session: false}), controller.completeTask);
 

@@ -14,8 +14,9 @@ class UsersList extends Component {
             <div className="user-suggestions">
                 {this.props.usersSearchResults.map(user=>{
                     return (
-                        <div onClick={()=>this.props.setUser(user.username)}className="suggestion">
-                            <img width="35" height="35" className="profile-picture" src={user.profilePicture}/>   {user.username}
+                        <div onClick={()=>this.props.setUser(user.username, user._id)}className="suggestion">
+                            <img width="35" height="35" className="profile-picture" src={user.profilePicture}/>
+                            {user.username}
                         </div>
                     )
                 })}

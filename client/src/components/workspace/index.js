@@ -31,7 +31,7 @@ class Workspace extends Component {
                     <div className="workspace-container">
                         <main>
                             <WorkspaceHeader project={this.props.project}/>
-                            <Route exact path={this.props.match.url} render={()=> <Home project={this.props.project}/>}/>
+                            <Route exact path={this.props.match.url} render={()=> <Home user={this.props.user} project={this.props.project}/>}/>
                             <Route path={this.props.match.url + "/chat"} component={Chat}/>
                             <Route path={this.props.match.url + "/git"} render={() => <Git project={this.props.project}/>}/>
                             <Route path={this.props.match.url + "/tasks"} render={() => <Tasks project={this.props.project}/>}/>
@@ -45,6 +45,7 @@ class Workspace extends Component {
 
 const mapStateToProps = (state) => {
     return {
+        user: state.auth.user,
         project: state.workspace.project,
         loading: state.workspace.loading,
         errorMessage: state.workspace.errorMessage

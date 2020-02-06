@@ -15,6 +15,7 @@ var invitationId;
 class ProjectInvitation extends Component {
     componentDidMount(){
         invitationId = this.props.history.location.pathname.substr(this.props.history.location.pathname.length -24);
+        console.log(invitationId);
         this.props.getInvitation(invitationId);
     }
     componentWillUnmount(){

@@ -44,7 +44,7 @@ class Home extends Component {
                         <h4>Team Members</h4>
                         {this.props.project.members.map(member => {
                             return (
-                                <div className="member">
+                                <div key={member._id} className="member">
                                     <img height="45" width="45" src={member.profilePicture}/>
                                 </div>
                             )
@@ -54,6 +54,7 @@ class Home extends Component {
                         </div>
                         {this.state.showInvitationModal &&
                             <InvitationModal
+                            user={this.props.user}
                             clearProcessData={this.props.clearProcessData}
                             successMessage={this.props.successMessage}
                             errorMessage={this.props.errorMessage}

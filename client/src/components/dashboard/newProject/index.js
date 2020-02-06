@@ -167,7 +167,7 @@ class NewProject extends Component {
                                         {this.props.skills[0] &&
                                             <div className="suggestions">
                                                 {this.props.skills.map(skill=>{
-                                                    return <p onClick={e=> this.addSkill(skill.keyName)}>{skill.keyName}</p>;
+                                                    return <p key={skill.keyName} onClick={e=> this.addSkill(skill.keyName)}>{skill.keyName}</p>;
                                                 })}
                                             </div>
                                         }

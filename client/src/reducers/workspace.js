@@ -31,6 +31,14 @@ export default function reducer(state = {
                     })
                 }
             }
+        case 'WS_NEW_CHANNEL':
+            return {
+                ...state,
+                project: {
+                    ...state.project,
+                    channels: action.payload.channels
+                }
+            }
         case 'CREATE_TEXT_CHANNEL_START':
             return {
                 ...state,

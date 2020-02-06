@@ -2,5 +2,8 @@ h1 Welcome to Code Companions!
 p 
     | Hi there #{name}! Thank you for signing up for a Code Companions Account. To complete the registration 
     | process, please follow 
-    a(href="https://codecompanions.herokuapp.com/#/account/verify/"+verificationCode) this link 
+    if process.env.NODE_ENV === "development"
+        a(href="http://localhost:8080/account/verify/" + verificationCode ) this link 
+    else
+        a(href="https://codecompanions.herokuapp.com/#/account/verify/"+verificationCode) this link 
     | to verify your account.

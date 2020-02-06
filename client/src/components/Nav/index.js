@@ -2,6 +2,9 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
 
+//SOCKET.IO
+import io from 'socket.io-client';
+
 //ACTIONS
 import {logout} from '../../actions/auth';
 import {getNotifications} from '../../actions/notifications';
@@ -10,8 +13,31 @@ import {getNotifications} from '../../actions/notifications';
 import bell from '../../img/bell.svg';
 
 class Nav extends Component {
+    constructor(){
+        super();
+        this.state = {
+            socket: null
+        }
+    }
     componentDidMount(){
         this.props.getNotifications();
+
+        this.setState({
+            ...this.state,
+            socket: io(`http://localhost:8000/ws-notifications?user=${this.props.user._id}`)
+        });
+       
+    }
+    componentDidUpdate(prevProps, prevState){
+        if(this.state.socket && !prevState.socket){  
+            //listens for new notifications
+            this.state.socket.on("new-notification", ()=>{
+                this.props.getNotifications();
+            });
+        }
+    }
+    componentWillUnmount(){
+        this.state.socket.disconnect()
     }
     render(){
         console.log(this);
@@ -79,6 +105,8 @@ class Nav extends Component {
         );
     }
 }
+
+
 
 const mapStateToProps = (state) => {
     return {

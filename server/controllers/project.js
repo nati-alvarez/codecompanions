@@ -184,6 +184,18 @@ exports.createTextChannel = async (req, res)=>{
     })
 }
 
+
+//gets only the new text channels for when a new channels is created
+exports.getTextChannels = async (req, res) => {
+    Project.findOne({_id: req.params.id})
+    .populate("channels").then(project=>{
+        res.status(200).json({success: true, channels: project.channels});
+    }).catch(err=>{
+        res.status(500).json({success:false, message: "An error occured getting channels", err});
+        console.log(err);
+    });
+}
+
 /************************************
  * 
  * PROJECT TASK FUNCTIONS

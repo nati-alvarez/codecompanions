@@ -61,6 +61,9 @@ module.exports = {
     new webpack.ProvidePlugin({
         $: "jquery",
         jQuery: "jquery"
+    }),
+    new webpack.ProvidePlugin({
+      FroalaEditor: "froala_editor.min.js/froala_editor.pkgd.min.js"
     })
-]
+  ],
 }

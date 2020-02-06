@@ -22,6 +22,7 @@ class MessageInput extends Component {
         //Newline on shift key + enter. Else submit message on enter
         if(e.which === 13){
             if(e.shiftKey) {
+                this.setState({...this.state, message: this.state.message+ "/r"})
                 return;
             }
             return this.submitMessage();
@@ -34,7 +35,7 @@ class MessageInput extends Component {
 
         this.setState({...this.state, message: ""});
         document.getElementById("input").value = "";
-        this.props.socket.emit('send-message', message, JSON.parse(localStorage.getItem("user")));
+        this.props.socket.emit('send-message', message, JSON.parse(localStorage.getItem("user")), this.props.channel.name);
 
     }
     render(){

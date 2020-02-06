@@ -1,6 +1,9 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 
+//SOCKET IO
+import io from 'socket.io-client';
+
 //COMPONENTS
 import UsersList from './UsersList';
 import Loader from '../../animations/Loader';
@@ -15,15 +18,18 @@ class InvitationModal extends Component {
     constructor(props){
         super(props);
         this.state = {
-            username: null
+            username: null,
+            id: null,
+            socket: null
+
         }
         this.autoComplete = this.autoComplete.bind(this);
         this.setUser = this.setUser.bind(this);
         this.sendProjectInvitation = this.sendProjectInvitation.bind(this);
     }
-    setUser(username){
+    setUser(username, id){
         document.getElementById("search-user-input").value = username;
-        this.setState({...this.state, username: username});
+        this.setState({...this.state, username: username, id: id});
         //remove suggestions after
     }
     autoComplete(keyword, clear){
@@ -50,15 +56,26 @@ class InvitationModal extends Component {
         this.setState({...this.state, username: null});
         this.autoComplete(null, true)
     }
-    componentDidUpdate(){
+    componentDidMount(){
+        this.setState({...this.state, socket: io(`http://localhost:8000/ws-notifications?user=${this.props.user._id}`)})
+    }
+    componentDidUpdate(prevProps, prevState){
         if(!this.props.loading)
             document.getElementById('submit-button').disabled = false;
 
-        if(!this.props.loading && this.props.successMessage)
+        //invitation was sent successfully created, clear form data
+        //and send the signal to the intvitee via socket io
+        if(!this.props.loading && this.props.successMessage){
+            console.log(this.state.id);
+            if(this.state.id)
+                this.state.socket.emit("send-notification", this.state.id)
             setTimeout(this.props.clearProcessData, 3000);
+        }  
+    }      
+    componentWillUnmount(){
+        this.state.socket.disconnect();
     }
     render(){
-        console.log(this.props)
         return (
             <div className="modal invitation-modal">
                 <button onClick={this.props.closeInvitationModal} className="close-btn">X</button>

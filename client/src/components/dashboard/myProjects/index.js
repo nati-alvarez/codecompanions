@@ -31,7 +31,7 @@ class MyProjects extends Component {
                 {this.props.projects[0] &&
                     <div className="projects grid-x grid-margin-x">
                         {this.props.projects.map(project => {
-                            return <Project project={project}/>;
+                            return <Project key={project._id} project={project}/>;
                         })}
                     </div>
                 }

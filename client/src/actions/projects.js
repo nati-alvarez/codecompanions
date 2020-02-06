@@ -92,6 +92,17 @@ exports.sendMessage = (projectId, channelName, messageBody) => {
             dispatch({type:"SEND_MESSAGE_SUCCESS", payload: {message: {id: res.data.message._id, body: messageBody, author: JSON.parse(localStorage.getItem("user"))}, channelName}})
         }).catch(err=>{
             console.log(err);
+        }); 
+    }
+}
+
+//function to get new channels when they are created
+exports.getChannels = (id) => {
+    return (dispatch) => {
+        axios.get(`${API_URL}/projects/${id}/channels`, {headers: {authorization: `Bearer ${localStorage.getItem("token")}`}}).then(res =>{
+            dispatch({type: "WS_NEW_CHANNEL", payload: {channels: res.data.channels}});
+        }).catch(err => {
+            console.log(err.response);
         });
     }
 }

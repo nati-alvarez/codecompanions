@@ -6,7 +6,6 @@ import {API_URL} from '../env';
 //find ways to split them into smaller more manageable reducers
 //error handling is also pretty much non-existent fix that too
 
-
 //gets list of existing users for project invtation suggestions
 exports.getUsers = (username) => {
     return (dispatch) => {
