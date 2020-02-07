@@ -3,22 +3,23 @@ const webpack = require("webpack");
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const HtmlWebpackPluginConfig = new HtmlWebpackPlugin({
-  template: './client/index.html',
+  template: path.resolve(__dirname, 'client/index.html'),
   filename: 'index.html',
   inject: 'body'
 })
 
 var BUILD_DIR = path.resolve(__dirname, 'dist');
-var APP_DIR = path.resolve(__dirname, 'client/src/app.js');
+var APP_DIR =  path.resolve(__dirname, "client/src/app.js");
 
 module.exports = {
   entry: APP_DIR,
+  mode: process.env.NODE_ENV,
   output: {
     path: BUILD_DIR,
     filename: 'main.js'
   },
   module: {
-    loaders: [
+    rules: [
       { test: /\.js$/, loader: 'babel-loader', exclude: /node_modules/ },
       { test: /\.jsx$/, loader: 'babel-loader', exclude: /node_modules/ },
       {
