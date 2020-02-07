@@ -37,7 +37,8 @@ class Nav extends Component {
         }
     }
     componentWillUnmount(){
-        this.state.socket.disconnect()
+        if(this.state.socket)
+            this.state.socket.disconnect()
     }
     render(){
         console.log(this);

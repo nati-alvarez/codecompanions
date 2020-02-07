@@ -7,7 +7,6 @@ class AddChannelModal extends Component {
     }
     createTextChannel(){
         this.props.createTextChannel(this.props.projectId, document.getElementById('channel-name').value)
-        this.props.socket.emit('create-channel', this.props.projectId);
     }
     render(){
         return(

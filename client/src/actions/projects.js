@@ -100,6 +100,8 @@ exports.sendMessage = (projectId, channelName, messageBody) => {
 exports.getChannels = (id) => {
     return (dispatch) => {
         axios.get(`${API_URL}/projects/${id}/channels`, {headers: {authorization: `Bearer ${localStorage.getItem("token")}`}}).then(res =>{
+            console.log("HERE ARE THE NEW CHANNELS");
+            console.log(res.data.channels);
             dispatch({type: "WS_NEW_CHANNEL", payload: {channels: res.data.channels}});
         }).catch(err => {
             console.log(err.response);

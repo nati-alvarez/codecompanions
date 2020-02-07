@@ -57,6 +57,11 @@ class Chat extends Component {
         this.state.socket.disconnect();
     }
     componentDidUpdate(prevProps, prevState){
+        //if a new channels was successfully created, send signal to 
+        //all other users in the workspace
+        if(this.props.project.channels.length > prevProps.project.channels.length){
+            this.state.socket.emit('create-channel', this.props.project._id);
+        }
         //auto scroll to bottom of messages when a new message is posted
         document.getElementsByClassName("active-chat-channel")[0].scrollTop += 10000   
 
