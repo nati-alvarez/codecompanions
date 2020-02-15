@@ -115,6 +115,12 @@ exports.wsNewMessage = (messageBody, author, channelName) => {
     }
 }
 
+exports.wsNewInactiveMessage = (messageBody, author, channelName) => {
+    return (dispatch) => {
+        dispatch({type: 'WS_NEW_INACTIVE_MESSAGE', payload: {message: {body: messageBody, author: author}, channelName}});
+    }
+}
+
 /**********************************
  * 
  * PROJECT TASK FUNCTIONS

@@ -10,7 +10,7 @@ import MessageInput from './MessageInput';
 import io from 'socket.io-client';
 
 //ACTIONS
-import {sendMessage, createTextChannel, getProject, getChannels, wsNewChannel, wsNewMessage} from '../../../actions/projects';
+import {sendMessage, createTextChannel, getProject, getChannels, wsNewChannel, wsNewMessage, wsNewInactiveMessage} from '../../../actions/projects';
 
 //STYLES
 import '../../../styles/pages/workspacechat.sass';
@@ -21,7 +21,8 @@ class Chat extends Component {
         this.state = {
             showAddChannelModal: false,
             activeChannel: null,
-            socket: io('http://localhost:8000/ws-chat')
+            socket: io('http://localhost:8000/ws-chat'),
+            newInactiveMessages: []
         }
         this.toggleAddChannelModal = this.toggleAddChannelModal.bind(this);
         this.changeChannel = this.changeChannel.bind(this);
@@ -30,10 +31,34 @@ class Chat extends Component {
         //connects to socket
         this.state.socket.emit("get-messages", this.props.project._id, this.state.activeChannel.name);
 
+        //sets the number of new messages to 0 for all channels
+        this.props.project.channels.map(channel=>{
+            var newMessages = {channelName: channel.name, newMessages: 0};
+            this.setState({
+                ...this.state,
+                newInactiveMessages: this.state.newInactiveMessages.push(newMessages)
+            })
+        });
+        console.log(this.state.newInactiveMessages)
+
         //listens for new messages submitted from other users in the chatroom
         this.state.socket.on('new-messages', (message, author, channelName)=>{
-            if(this.state.activeChannel.name == channelName)
+            if(this.state.activeChannel.name == channelName){
                 this.props.wsNewMessage(message, author, this.state.activeChannel.name);
+            }else if(this.state.newInactiveMessages[0]) {
+                this.props.wsNewInactiveMessage(message, author, channelName);
+                this.setState({
+                    newInactiveMessages: this.state.newInactiveMessages.map(channel=>{
+                        if(channel.channelName === channelName){
+                            console.log("DID it")
+                            return {
+                                ...channel,
+                                newMessages: ++channel.newMessages
+                            }
+                        } else return channel;
+                    })
+                })
+            }
         });
 
         //listens for new channels being created and adds then to the sidebar
@@ -57,21 +82,22 @@ class Chat extends Component {
         this.state.socket.disconnect();
     }
     componentDidUpdate(prevProps, prevState){
-        //if a new channels was successfully created, send signal to 
-        //all other users in the workspace
-        if(this.props.project.channels.length > prevProps.project.channels.length){
-            this.state.socket.emit('create-channel', this.props.project._id);
-        }
-        //auto scroll to bottom of messages when a new message is posted
-        document.getElementsByClassName("active-chat-channel")[0].scrollTop += 10000   
-
         //gets the active channels from the database
         var activeChannel = this.props.project.channels.filter(channel=>{
             return channel.name === this.state.activeChannel.name;
         });
 
+        //auto scroll to bottom of messages when a new message is posted
+        document.getElementsByClassName("active-chat-channel")[0].scrollTop += 10000 
+
+        //if a new channels was successfully created, send signal to 
+        //all other users in the workspace
+        if(this.props.project.channels.length > prevProps.project.channels.length){
+            this.state.socket.emit('create-channel', this.props.project._id);
+        }
+
         //if the number of messages gotten from the channel in the database is
-        //different from the number of messages from the channel the state, update messages
+        //different from the number of messages from the channel in the state, update messages
         //In other words, updates messages if there are new messages 
         if(activeChannel[0].messages.length > this.state.activeChannel.messages.length)
             this.setState({...this.state, activeChannel: activeChannel[0]});
@@ -102,7 +128,7 @@ class Chat extends Component {
     render(){
         return (
             <div className="workspace-chat grid-x grid-padding-x">
-                <ChatChannels activeChannel={this.state.activeChannel} changeChannel={this.changeChannel} toggleAddChannelModal={this.toggleAddChannelModal} channels={this.props.project.channels}/>
+                <ChatChannels newInactiveMessages={this.state.newInactiveMessages} activeChannel={this.state.activeChannel} changeChannel={this.changeChannel} toggleAddChannelModal={this.toggleAddChannelModal} channels={this.props.project.channels}/>
                 <div className="active-chat-channel cell auto"> 
                     {this.state.showAddChannelModal && <AddChannelModal socket={this.state.socket} projectId={this.props.project._id} createTextChannel={this.props.createTextChannel} toggleAddChannelModal={this.toggleAddChannelModal}/>}
                     <h3 className="top-bar channel-name">
@@ -144,6 +170,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         wsNewMessage: (messageBody, author, channelName) => dispatch(wsNewMessage(messageBody, author, channelName)),
+        wsNewInactiveMessage: (messageBody, author, channelName) => dispatch(wsNewInactiveMessage(messageBody, author, channelName)),
         wsNewChannel: () => dispatch(wsNewChannel()),
         sendMessage: (projectId, channelName, messageBody) => dispatch(sendMessage(projectId, channelName, messageBody)),
         createTextChannel: (projectId, channelName) => dispatch(createTextChannel(projectId, channelName)),

@@ -1,5 +1,3 @@
-// TODO: Make this work in a less retarded way
-
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 

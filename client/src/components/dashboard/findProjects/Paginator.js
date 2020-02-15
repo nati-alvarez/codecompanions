@@ -9,7 +9,7 @@ class Paginator extends Component {
     render(){
         /***************************************************************
          *  TODO:
-         *  fix shitty pagination logic
+         *  refactor pagination logic
          ***************************************************************/
 
         //array of page numbers for pagination of projects

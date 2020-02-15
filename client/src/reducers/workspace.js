@@ -16,7 +16,6 @@ export default function reducer(state = {
         case "WS_NEW_MESSAGE":
             console.log(action.payload);
             return {
-                ...state,
                 project: {
                     ...state.project,
                     channels: state.project.channels.map(channel=>{
@@ -26,6 +25,22 @@ export default function reducer(state = {
                                 messages: channel.messages.concat(action.payload.message)
                             }
                         }else {
+                            return channel;
+                        }
+                    })
+                }
+            }
+        case 'WS_NEW_INACTIVE_MESSAGE':
+            return {
+                project: {
+                    ...state.project,
+                    channels: state.project.channels.map(channel=>{
+                        if(channel.name === action.payload.channelName){
+                            return {
+                                ...channel,
+                                messages: channel.messages.concat(action.payload.message)
+                            }
+                        } else {
                             return channel;
                         }
                     })

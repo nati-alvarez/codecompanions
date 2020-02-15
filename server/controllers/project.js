@@ -110,8 +110,6 @@ exports.sendProjectInvitation = async (req, res) => {
         recipient: user._id,
     });
 
-    console.log("what the fuck");
-
     invitation.save().then(invitation=>{
         res.status(201).json({success: true, invitation, message: "Project invitation sent"});
     }).catch(err=>{
