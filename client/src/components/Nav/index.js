@@ -4,6 +4,7 @@ import {Link} from 'react-router-dom';
 
 //SOCKET.IO
 import io from 'socket.io-client';
+import {SOCKET_URL} from "../../env"
 
 //ACTIONS
 import {logout} from '../../actions/auth';
@@ -24,7 +25,7 @@ class Nav extends Component {
 
         this.setState({
             ...this.state,
-            socket: io(`http://localhost:8000/ws-notifications?user=${this.props.user._id}`)
+            socket: io(`${SOCKET_URL}/ws-notifications?user=${this.props.user._id}`)
         });
        
     }

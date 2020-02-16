@@ -15,13 +15,15 @@ import {sendMessage, createTextChannel, getProject, getChannels, wsNewChannel, w
 //STYLES
 import '../../../styles/pages/workspacechat.sass';
 
+import {SOCKET_URL} from '../../../env';
+
 class Chat extends Component {
     constructor(){
         super();
         this.state = {
             showAddChannelModal: false,
             activeChannel: null,
-            socket: io('http://localhost:8000/ws-chat'),
+            socket: io(`${SOCKET_URL}/ws-chat`),
             newInactiveMessages: []
         }
         this.toggleAddChannelModal = this.toggleAddChannelModal.bind(this);
