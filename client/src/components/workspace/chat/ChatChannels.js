@@ -6,8 +6,10 @@ import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 import faPlus from '@fortawesome/fontawesome-free-solid/faPlus';
 
 class ChatChannels extends Component {
+    componentDidUpdate(){
+        console.log("IT UPDATED", this.props.newInactiveMessages);
+    }
     render(){
-        console.log(this.props.newInactiveMessages, this.props.channels)
         return (
             <div className="chat-channels cell medium-2">
                 <div className="scrollbar channels-list">
@@ -21,8 +23,8 @@ class ChatChannels extends Component {
                         {
                         this.props.newInactiveMessages[0] &&
                         this.props.newInactiveMessages.map(item=>{
-                            if(item.channelName == channel.name && item.newMessages)
-                                return (<div className="message-counter">{item.newMessages}</div>)
+                            if(item.channelName == channel.name && item.numMessages)
+                                return (<span className="message-counter"> {item.numMessages} </span>)
                             else
                                 return
                         })

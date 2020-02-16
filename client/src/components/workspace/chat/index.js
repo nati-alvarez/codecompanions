@@ -32,14 +32,15 @@ class Chat extends Component {
         this.state.socket.emit("get-messages", this.props.project._id, this.state.activeChannel.name);
 
         //sets the number of new messages to 0 for all channels
+        var allChannels = [];
         this.props.project.channels.map(channel=>{
-            var newMessages = {channelName: channel.name, newMessages: 0};
-            this.setState({
-                ...this.state,
-                newInactiveMessages: this.state.newInactiveMessages.push(newMessages)
-            })
+            var newMessages = {channelName: channel.name, numMessages: 0};
+            allChannels.push(newMessages);
         });
-        console.log(this.state.newInactiveMessages)
+        this.setState({
+            ...this.state,
+            newInactiveMessages: allChannels
+        })
 
         //listens for new messages submitted from other users in the chatroom
         this.state.socket.on('new-messages', (message, author, channelName)=>{
@@ -49,21 +50,23 @@ class Chat extends Component {
                 this.props.wsNewInactiveMessage(message, author, channelName);
                 this.setState({
                     newInactiveMessages: this.state.newInactiveMessages.map(channel=>{
-                        if(channel.channelName === channelName){
-                            console.log("DID it")
+                        if(channel.channelName == channelName){
                             return {
                                 ...channel,
-                                newMessages: ++channel.newMessages
+                                numMessages: ++channel.numMessages
                             }
-                        } else return channel;
+                        }
+                        else {
+                            return channel;
+                        }
                     })
                 })
             }
         });
 
+
         //listens for new channels being created and adds then to the sidebar
         this.state.socket.on('new-channel', ()=>{
-            console.log('A NEW CHANNEL WAS CREATED')
             this.props.getChannels(this.props.project._id);
         });
 
@@ -124,11 +127,31 @@ class Chat extends Component {
     
         //reloads project data to get all new messages when the channel changes
         this.props.getProject(this.props.project._id);
+
+        this.setMessagesAsRead(channelName);
+    }
+    setMessagesAsRead(channelName){
+        this.setState({
+            newInactiveMessages: this.state.newInactiveMessages.map(channel=>{
+                if(channel.channelName == channelName){
+                    return {
+                        ...channel,
+                        numMessages: 0
+                    }
+                }
+                else return channel;
+            })
+        })
     }
     render(){
         return (
             <div className="workspace-chat grid-x grid-padding-x">
-                <ChatChannels newInactiveMessages={this.state.newInactiveMessages} activeChannel={this.state.activeChannel} changeChannel={this.changeChannel} toggleAddChannelModal={this.toggleAddChannelModal} channels={this.props.project.channels}/>
+                <ChatChannels 
+                newInactiveMessages={this.state.newInactiveMessages}
+                activeChannel={this.state.activeChannel}
+                changeChannel={this.changeChannel}
+                toggleAddChannelModal={this.toggleAddChannelModal}
+                channels={this.props.project.channels}/>
                 <div className="active-chat-channel cell auto"> 
                     {this.state.showAddChannelModal && <AddChannelModal socket={this.state.socket} projectId={this.props.project._id} createTextChannel={this.props.createTextChannel} toggleAddChannelModal={this.toggleAddChannelModal}/>}
                     <h3 className="top-bar channel-name">
