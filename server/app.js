@@ -69,17 +69,13 @@ var notifications = io.of('/ws-notifications')
 
 var chat = io.of('/ws-chat')
 .on('connection', (socket)=>{
-    var room
     //connects to chat channel room, to listen for new messages
-    socket.on('get-messages', (projectId, channelName)=>{
-        if(room)
-            socket.leave(room);
-        room = `${projectId}`;
-        socket.join(room);
+    socket.on('get-messages', (projectId)=>{
+        socket.join(projectId);
     });
     //lets all other users in the chat channel room know when a new message was sent
-    socket.on('send-message', (message, author, channelName)=>{
-        socket.to(room).emit('new-messages', message, author, channelName);
+    socket.on('send-message', (message, author, channelName, projectId)=>{
+        socket.to(projectId).emit('new-messages', message, author, channelName);
     });
     //lets all other users in the chat channel room know when a new channel was created
     socket.on('create-channel', (projectId)=>{

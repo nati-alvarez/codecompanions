@@ -6,9 +6,6 @@ import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 import faPlus from '@fortawesome/fontawesome-free-solid/faPlus';
 
 class ChatChannels extends Component {
-    componentDidUpdate(){
-        console.log("IT UPDATED", this.props.newInactiveMessages);
-    }
     render(){
         return (
             <div className="chat-channels cell medium-2">

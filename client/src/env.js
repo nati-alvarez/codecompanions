@@ -1,7 +1,9 @@
 //PRODUCTION
-exports.API_URL = 'https://codecompanions.herokuapp.com/api';
-exports.SOCKET_URL = 'https://codecompanions.herokuapp.com';
+// exports.API_URL = 'https://codecompanions.herokuapp.com/api';
+// exports.SOCKET_URL = 'https://codecompanions.herokuapp.com';
+
+console.log(process.env)
 
 //DEVELOPMENT
-// exports.API_URL = "http://localhost:8000/api";
-// exports.SOCKET_URL = "http://localhost:8000";
+exports.API_URL = "http://localhost:8000/api";
+exports.SOCKET_URL = "http://localhost:8000";

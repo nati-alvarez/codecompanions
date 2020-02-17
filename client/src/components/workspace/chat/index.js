@@ -10,7 +10,7 @@ import MessageInput from './MessageInput';
 import io from 'socket.io-client';
 
 //ACTIONS
-import {sendMessage, createTextChannel, getProject, getChannels, wsNewChannel, wsNewMessage, wsNewInactiveMessage} from '../../../actions/projects';
+import {sendMessage, createTextChannel, getProject, getChannels, wsNewMessage, wsNewInactiveMessage} from '../../../actions/projects';
 
 //STYLES
 import '../../../styles/pages/workspacechat.sass';
@@ -39,10 +39,11 @@ class Chat extends Component {
             var newMessages = {channelName: channel.name, numMessages: 0};
             allChannels.push(newMessages);
         });
+
         this.setState({
             ...this.state,
             newInactiveMessages: allChannels
-        })
+        });
 
         //listens for new messages submitted from other users in the chatroom
         this.state.socket.on('new-messages', (message, author, channelName)=>{
@@ -70,6 +71,13 @@ class Chat extends Component {
         //listens for new channels being created and adds then to the sidebar
         this.state.socket.on('new-channel', ()=>{
             this.props.getChannels(this.props.project._id);
+            this.setState({
+                ...this.state,
+                newInactiveMessages: this.state.newInactiveMessages.concat({
+                    channelName: this.props.project.channels[this.props.project.channel.length - 1].name,
+                    numMessages: 0
+                })
+            })
         });
 
         //auto scroll to bottom of messages on component mount
@@ -87,6 +95,8 @@ class Chat extends Component {
         this.state.socket.disconnect();
     }
     componentDidUpdate(prevProps, prevState){
+        console.log('here is the new newInactiveMessages thing')
+        console.log(this.state.newInactiveMessages)
         //gets the active channels from the database
         var activeChannel = this.props.project.channels.filter(channel=>{
             return channel.name === this.state.activeChannel.name;
@@ -110,7 +120,15 @@ class Chat extends Component {
         //checks if new channel was created. if so hide create channel modal and sets the active channel to the new channel
         //we only set the new channel to the active one for the user who created it
         if(this.props.project.channels.length > prevProps.project.channels.length && prevState.showAddChannelModal === true){
-            this.setState({...this.state, showAddChannelModal: false, activeChannel: this.props.project.channels[this.props.project.channels.length - 1]});
+            this.setState({
+                ...this.state,
+                showAddChannelModal: false, 
+                activeChannel: this.props.project.channels[this.props.project.channels.length - 1],
+                newInactiveMessages: this.state.newInactiveMessages.concat({
+                    channelName: this.props.project.channels[this.props.project.channels.length - 1].name,
+                    numMessages: 0
+                })
+            });
         }
     }
     toggleAddChannelModal(bool){
@@ -196,7 +214,6 @@ const mapDispatchToProps = (dispatch) => {
     return {
         wsNewMessage: (messageBody, author, channelName) => dispatch(wsNewMessage(messageBody, author, channelName)),
         wsNewInactiveMessage: (messageBody, author, channelName) => dispatch(wsNewInactiveMessage(messageBody, author, channelName)),
-        wsNewChannel: () => dispatch(wsNewChannel()),
         sendMessage: (projectId, channelName, messageBody) => dispatch(sendMessage(projectId, channelName, messageBody)),
         createTextChannel: (projectId, channelName) => dispatch(createTextChannel(projectId, channelName)),
         getProject: (projectId) => dispatch(getProject(projectId)),
