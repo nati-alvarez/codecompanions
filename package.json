@@ -71,7 +71,7 @@
     "juice": "^6.0.0",
     "kind-of": "^6.0.3",
     "lodash-es": "^4.17.15",
-    "minimist": "^1.2.5",
+    "minimist": "^1.2.6",
     "moment": "^2.22.2",
     "mongoose": "^5.9.7",
     "nodemailer": "^4.6.6",
